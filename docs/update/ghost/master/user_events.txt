@@ -15,3 +15,7 @@ MENU|追加イベントのテスト|OnUserTest
 # 自作例:
 # EVENT|OnUserTea|\0\s[1]お茶にしませんか？ 今日は甘いものも欲しいです♪\e
 # MENU|お茶にする|OnUserTea
+
+# Web拍手・感想
+EVENT|OnYuukaFeedback|\0\s[1]あの……もしよかったら、私と過ごした感想を聞かせてもらえませんか？\w5一言だけでも、とっても嬉しいです♪\w5\j[https://knn6hc6k9h-commits.github.io/shirayuki-yuuka/feedback.html]\e
+MENU|感想を送る（Web拍手）|OnYuukaFeedback
