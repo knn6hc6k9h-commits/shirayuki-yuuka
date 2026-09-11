@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="白雪ゆうかへのWeb拍手・一言コメント送信ページです。">
+<meta name="theme-color" content="#dff4ff">
+<title>ゆうかちゃんに感想を送る | 白雪ゆうか</title>
+<style>
+:root{--bg:#eef8ff;--panel:rgba(255,255,255,.92);--line:#d6eaf6;--text:#294a60;--sub:#708696;--blue:#61b7df;--blue2:#86ceed;font-family:"Yu Gothic UI","Hiragino Kaku Gothic ProN","Meiryo",sans-serif}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;color:var(--text);background:radial-gradient(circle at 15% 12%,rgba(255,255,255,.95) 0 90px,transparent 91px),radial-gradient(circle at 85% 22%,rgba(255,255,255,.8) 0 120px,transparent 121px),linear-gradient(180deg,#eaf7ff,#f9fcff 55%,#edf8ff)}
+.wrap{max-width:720px;margin:auto;padding:42px 18px 70px}.back{display:inline-block;margin-bottom:18px;color:#56819a;text-decoration:none}.card{background:var(--panel);border:1px solid var(--line);border-radius:28px;box-shadow:0 18px 48px rgba(77,125,155,.13);padding:34px}.hero{text-align:center}.hero img{width:150px;max-height:240px;object-fit:contain;filter:drop-shadow(0 12px 20px rgba(68,116,145,.16))}h1{font-size:clamp(1.9rem,7vw,2.8rem);margin:12px 0 8px}.lead{color:var(--sub);line-height:1.8;margin:0 auto 26px;max-width:540px}label{font-weight:700;display:block;margin:18px 0 8px}input,textarea{width:100%;border:1px solid #cfe5f1;border-radius:14px;background:#fff;padding:13px 14px;font:inherit;color:#314d60;outline:none}input:focus,textarea:focus{border-color:#85c9e8;box-shadow:0 0 0 3px rgba(98,182,223,.12)}textarea{min-height:120px;resize:vertical}.count{text-align:right;color:#8ba0ad;font-size:.82rem;margin-top:5px}.actions{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:22px}button{border:0;border-radius:15px;padding:15px 16px;font:inherit;font-weight:800;cursor:pointer;transition:.18s transform,.18s opacity}button:hover{transform:translateY(-1px)}button:disabled{opacity:.55;cursor:wait;transform:none}.clap{background:linear-gradient(135deg,var(--blue),var(--blue2));color:white}.comment{background:white;color:#3f708c;border:1px solid #cce3ef}.note{margin-top:22px;padding:13px 15px;background:#f6fbfe;border-radius:12px;color:#718796;font-size:.84rem;line-height:1.65}.result{display:none;margin-top:22px;padding:18px;border-radius:16px;text-align:center;background:#edf9ff;line-height:1.7}.result.show{display:block}.small{font-size:.82rem;color:#8ba0ad;text-align:center;margin-top:18px}@media(max-width:560px){.card{padding:26px 20px}.actions{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<main class="wrap">
+<a class="back" href="./">← 配布ページへ戻る</a>
+<section class="card">
+<div class="hero"><img src="thumbnail.png" alt="白雪ゆうか"><h1>ゆうかちゃんに感想を送る</h1><p class="lead">拍手だけでも、一言だけでも大歓迎です。<br>気軽に送ってもらえると嬉しいです♪</p></div>
+<label for="name">お名前 <span style="font-weight:400;color:#8ba0ad">（任意・匿名OK）</span></label><input id="name" maxlength="30" autocomplete="nickname" placeholder="匿名">
+<label for="comment">一言コメント <span style="font-weight:400;color:#8ba0ad">（任意）</span></label><textarea id="comment" maxlength="500" placeholder="かわいかった！／また会いに来ます！ など"></textarea><div class="count"><span id="count">0</span> / 500</div>
+<div class="actions"><button id="clapBtn" class="clap" type="button">👏 拍手だけ送る</button><button id="commentBtn" class="comment" type="button">💬 コメント付きで送る</button></div>
+<div id="result" class="result" role="status" aria-live="polite"></div>
+<div class="note">コメントは外部通知サービス「ntfy.sh」を経由して制作者へ送信されます。個人情報・パスワードなどの機密情報は送らないでください。</div><div class="small">白雪ゆうか Web拍手</div>
+</section></main>
+<script>
+(()=>{const topic="shirayuki-yuuka-feedback-5e24525f6157bee097497f78",endpoint="https://ntfy.sh/",pageUrl="https://knn6hc6k9h-commits.github.io/shirayuki-yuuka/",nameEl=document.getElementById("name"),commentEl=document.getElementById("comment"),countEl=document.getElementById("count"),resultEl=document.getElementById("result"),clapBtn=document.getElementById("clapBtn"),commentBtn=document.getElementById("commentBtn");let busy=false;const thanks=["えへへ♪ 拍手、ちゃんと届きました！ ありがとうございます♪","わあっ、ありがとうございます！ とっても嬉しいです♪","感想ありがとうございます♪ また会いに来てくださいね！","はいっ、受け取りました♪ これからもよろしくお願いします！"];commentEl.addEventListener("input",()=>countEl.textContent=String(commentEl.value.length));async function send(kind){if(busy)return;const name=nameEl.value.trim()||"匿名",comment=commentEl.value.trim();if(kind==="comment"&&!comment){resultEl.textContent="コメント欄が空っぽみたいです。拍手だけなら左のボタンから送れます♪";resultEl.classList.add("show");commentEl.focus();return}busy=true;clapBtn.disabled=true;commentBtn.disabled=true;resultEl.textContent="送信しています……";resultEl.classList.add("show");const lines=[kind==="clap"?"👏 Web拍手が届きました":"💬 一言コメントが届きました","お名前: "+name];if(comment)lines.push("コメント: "+comment);try{const response=await fetch(endpoint,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({topic,title:"白雪ゆうか Web拍手",message:lines.join("\n"),tags:kind==="clap"?["clap"]:["speech_balloon"],priority:3,click:pageUrl})});if(!response.ok)throw new Error("HTTP "+response.status);resultEl.textContent=thanks[Math.floor(Math.random()*thanks.length)];if(kind==="comment")commentEl.value="";countEl.textContent=String(commentEl.value.length)}catch(e){resultEl.textContent="うまく送れませんでした。少し時間をおいて、もう一度試してください。"}finally{setTimeout(()=>{busy=false;clapBtn.disabled=false;commentBtn.disabled=false},1200)}}clapBtn.addEventListener("click",()=>send("clap"));commentBtn.addEventListener("click",()=>send("comment"))})();
+</script>
+</body>
+</html>
