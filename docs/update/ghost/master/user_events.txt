@@ -19,3 +19,9 @@ MENU|追加イベントのテスト|OnUserTest
 # Web拍手・感想
 EVENT|OnYuukaFeedback|\0\s[1]あの……もしよかったら、私と過ごした感想を聞かせてもらえませんか？\w5一言だけでも、とっても嬉しいです♪\w5\j[https://knn6hc6k9h-commits.github.io/shirayuki-yuuka/feedback.html]\e
 MENU|感想を送る（Web拍手）|OnYuukaFeedback
+
+# メインメニュー上書き（2列表示）
+# user_events.txt の同名EVENTは dialogue.txt より優先されます。
+EVENT|MainMenu|\0\s[1]はいっ、どうしましたか？\n\n\_l[0,]\q[お話しする,OnYuukaTalk]\_l[11em,]\q[ゆうかに話しかける,OnYuukaSpeak]\_l[0,@1.5lh]\q[今の気持ちを聞く,OnYuukaAffection]\_l[11em,]\q[呼び方を決める,OnYuukaSetName]\_l[0,@1.5lh]\q[少し休憩する,OnYuukaRest]\_l[11em,]\q[設定,OnYuukaSettings]\_l[0,@1.5lh]\q[追加イベント,OnYuukaUserMenu]\_l[11em,]\q[閉じる,script:\e]\*\e
+EVENT|MainMenuGrumpy|\0\s[0]……どうしましたか？\n\n\_l[0,]\q[お話しする,OnYuukaTalk]\_l[11em,]\q[ゆうかに話しかける,OnYuukaSpeak]\_l[0,@1.5lh]\q[今の気持ちを聞く,OnYuukaAffection]\_l[11em,]\q[呼び方を決める,OnYuukaSetName]\_l[0,@1.5lh]\q[少し休憩する,OnYuukaRest]\_l[11em,]\q[設定,OnYuukaSettings]\_l[0,@1.5lh]\q[追加イベント,OnYuukaUserMenu]\_l[11em,]\q[閉じる,script:\e]\*\e
+EVENT|MainMenuAngry|\0\s[4]……何ですか？\n\n\_l[0,]\q[お話しする,OnYuukaTalk]\_l[11em,]\q[ゆうかに話しかける,OnYuukaSpeak]\_l[0,@1.5lh]\q[今の気持ちを聞く,OnYuukaAffection]\_l[11em,]\q[呼び方を決める,OnYuukaSetName]\_l[0,@1.5lh]\q[少し休憩する,OnYuukaRest]\_l[11em,]\q[設定,OnYuukaSettings]\_l[0,@1.5lh]\q[追加イベント,OnYuukaUserMenu]\_l[11em,]\q[閉じる,script:\e]\*\e
