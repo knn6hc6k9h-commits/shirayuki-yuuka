@@ -1,0 +1,149 @@
+白雪ゆうか Ver.1.7 台詞編集ガイド
+====================================
+
+■ まずここだけ覚えればOK
+標準台詞は
+  ghost/master/dialogue.txt
+にまとめてあります。
+
+台詞を書き換えて保存したあと、ゆうかのメニューから
+「設定を再読み込み」
+を選ぶと反映されます。SHIORI DLLの再ビルドは不要です。
+
+■ 基本書式
+EVENT|イベントID|台詞
+
+例:
+EVENT|RandomTalk|\0\s[1]今日はいい日ですね、{name}さん♪\e
+
+同じイベントIDを複数行書くとランダムで選ばれます。
+そのため、ランダムトークや触り反応を増やす場合は
+既存行をコピーして台詞部分だけ変更するのが簡単です。
+
+■ よく編集するイベントID
+RandomTalk                 普段のランダムトーク
+RandomTalkGrumpy           セクハラカウント閾値以上の不機嫌ランダムトーク
+FirstBoot                  初回起動
+BootMorning                朝の起動
+BootMorningClose           朝・なかよし度高め
+BootDay                    昼の起動
+BootDayClose               昼・なかよし度高め
+BootEvening                夜の起動
+BootEveningClose           夜・なかよし度高め
+BootNight                  深夜の起動
+Close                      終了時
+MainMenu                   メインメニュー
+AffectionLow/Mid/High/Max  なかよし度別の台詞
+OnYuukaHeadTouch           頭に触れた時
+OnYuukaHeadStroke          頭を撫でた時
+OnYuukaBustTouch           胸元に触れた時
+OnYuukaBustStroke          胸元をなぞった時
+OnYuukaBustWheelUp         胸元で上方向操作
+OnYuukaBustWheelDown       胸元で下方向操作
+OnYuukaBustRepeat          胸元へ繰り返し触れた時
+OnYuukaBustStrongTouch     胸元へ強く/繰り返し触れた時
+OnYuukaSkirtWheelUp        スカート上方向
+OnYuukaSkirtWheelDown      スカート下方向
+OnYuukaSkirtActualFlip     20%レア分岐
+OnYuukaEyeTouch            目に触れた時
+OnYuukaEyeStroke           目をなぞった時
+OnYuukaEyeStrongTouch      目へ繰り返し触れた時
+OnYuukaMouthTouch          口に触れた時
+OnYuukaMouthStroke         口をなぞった時
+OnYuukaMouthStrongTouch    口へ繰り返し触れた時
+OnYuukaThighTouch          太ももに触れた時
+OnYuukaThighStroke         太ももをなでなでした時
+NamePrompt / NameEmpty / NameSet
+Rest                       休憩
+
+■ 置換
+{name}            ユーザー名
+{affection}       なかよし度
+{boots}           起動回数
+{dialogue_count}  標準台詞数
+{event_count}     追加イベント数
+{harassment_count} セクハラカウント
+{menu_count}      追加メニュー数
+
+■ 表情番号
+\s[0] 通常
+\s[1] 笑顔
+\s[3] 驚き
+\s[4] 怒り
+\s[5] 羞恥
+\s[6] 泣き
+\s[7] 強い動揺
+\s[8] 胸元を触られて羞恥
+\s[9] 強い羞恥・悲鳴
+
+■ 新しいメニューイベントを作る場合
+標準台詞ではなく ghost/master/user_events.txt に書きます。
+
+EVENT|OnUserHello|\0\s[1]こんにちは♪\e
+MENU|こんにちは|OnUserHello
+
+■ 感度・ランダムトーク間隔
+  ghost/master/user_config.txt
+で変更します。
+
+数字を大きくするほど、なぞり反応は鈍くなります。
+
+
+■ ユーザーから話しかける機能
+メニューの「ゆうかに話しかける」から文章を入力できます。
+返答は dialogue.txt の REPLY 行だけで追加できます。
+
+  REPLY|こんにちは|\0\s[1]こんにちは♪\e
+  REPLY|疲れた|\0\s[0]お疲れさまです。少し休みましょう？\e
+  REPLY|*|\0\s[0]「{input}」……ちゃんと聞いてますよ。\e
+
+入力文にキーワードが含まれていれば一致します。
+同じキーワードを複数書くとランダム選択です。
+{input} は実際に入力された文章へ置き換わります。
+
+■ アンインストール時の台詞
+dialogue.txt の以下を編集できます。
+  VanishSelecting  アンインストールを選んだ時
+  VanishCancel     やめた時
+  VanishSelected   実行を選んだ時
+
+■ スカート上方向ホイールの感度
+ghost/master/user_config.txt の
+  skirt_up_wheel_threshold=3
+を大きくすると反応しにくくなります。
+初期値3では、短時間に3段階ぶん上方向へ回した時に反応します。
+skirt_up_wheel_window_seconds は連続入力として数える時間です。
+
+■ 太もものなでなで感度
+ghost/master/user_config.txt の thigh_move_threshold=100 を大きくすると反応しにくくなります。
+
+
+■ セクハラカウント
+次の操作が1回成立するごとに、セクハラカウントが1増えます。
+  ・胸元へのクリック
+  ・スカート上方向の反応（通常/レアどちらも）
+
+ただし、なかよし度が harassment_affection_immunity 以上なら増えません。
+初期値は80です。
+
+頭のなでなで反応が1回成立するごとに、セクハラカウントは1減ります。
+0未満にはなりません。
+
+セクハラカウントが harassment_grumpy_threshold 以上になると、
+RandomTalk の代わりに RandomTalkGrumpy が優先されます。初期値は5です。
+RandomTalkGrumpy は dialogue.txt に好きなだけ追加できます。
+
+カウントは yuuka_state.dat に保存されるので、SSPを終了しても維持されます。
+
+
+Ver.1.6 機嫌システム
+- 0～20: 通常 / 21～50: 不機嫌 / 51以上: 怒り
+- 頭のなでなで反応1回につきセクハラカウント -1
+- 話しかけ入力で謝罪語を含むと -5
+- なかよし度80以上では新規加算なし
+- EVENT|IDGrumpy|... / EVENT|IDAngry|... を追加すれば各イベントを機嫌別にできます。
+- 機嫌別台詞がなければ通常版へ自動フォールバックします。
+
+【Ver.1.7 設定メニュー】
+メインメニューの「設定」から、セクハラカウントの増加をON/OFFできます。
+OFFにしても現在のカウントは消えません。頭を撫でる(-1)・話しかけて謝る(-5)はそのまま有効です。

@@ -1,0 +1,24 @@
+# 白雪ゆうか Ver.1.7 ユーザー設定
+# 数字を大きくすると、なぞり反応が鈍くなります。
+# 編集後は、ゆうかのメニュー →「イベント設定を再読み込み」で反映できます。
+
+head_move_threshold=60
+bust_move_threshold=90
+eye_move_threshold=65
+mouth_move_threshold=65
+# 太ももの「なでなで」感度（大きいほど反応しにくい）
+thigh_move_threshold=100
+random_talk_seconds=120
+
+# スカート上方向ホイールの感度（大きいほど反応しにくい）
+# 3 = 2秒以内に3段階ぶん上へ回すと反応
+skirt_up_wheel_threshold=3
+skirt_up_wheel_window_seconds=2
+
+# セクハラカウント関連
+# 「超えたら」判定: 21～50=不機嫌、51以上=怒り
+harassment_grumpy_threshold=20
+harassment_angry_threshold=50
+
+# なかよし度がこの値以上なら、セクハラカウントは増えません。
+harassment_affection_immunity=80

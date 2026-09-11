@@ -1,0 +1,336 @@
+# ============================================================
+# 白雪ゆうか Ver.1.7 標準台詞ファイル
+# ============================================================
+# 書式:
+# EVENT|イベントID|SakuraScript
+# REPLY|反応キーワード|SakuraScript
+#
+# 同じイベントIDを複数書くと、その中からランダムで1つ選ばれます。
+# 行頭の # はコメントです。
+# 保存形式は UTF-8 を推奨します。
+#
+# 置換:
+# {name}            ユーザー名
+# {affection}       なかよし度
+# {boots}           起動回数
+# {dialogue_count}  読み込んだ標準台詞数
+# {event_count}     追加イベント数
+# {harassment_count} セクハラカウント
+# {menu_count}      追加メニュー数
+# {reply_count}     話しかけ返答数
+# {input}           ユーザーが入力した文章
+#
+# SakuraScriptの主な記号:
+# \s[0]  通常 / \s[1] 笑顔 / \s[3] 驚き / \s[4] 怒り
+# \s[5]  羞恥 / \s[6] 泣き / \s[7] 強い動揺
+# \s[8]  胸元を触られて羞恥 / \s[9] 強い羞恥・悲鳴
+# \w5    少し間を置く
+# \n     改行
+# \e     台詞終了
+
+# ------------------------------------------------------------
+# 起動・終了
+# ------------------------------------------------------------
+EVENT|FirstBoot|\0\s[1]はじめまして。白雪ゆうかです。\w5えへへ♪ これからよろしくおねがいします。\n\n私に話しかけたい時は、そっと触れてみてくださいね。\e
+
+EVENT|BootMorning|\0\s[1]おはようございます、{name}さん。\w5今日も会えて嬉しいです♪\e
+EVENT|BootMorningClose|\0\s[1]いってらっしゃい、{name}さん♪\w5帰ってくるのを待ってますね……♪\e
+EVENT|BootDay|\0\s[1]こんにちは、{name}さん。\w5今日も会えて嬉しいです♪\e
+EVENT|BootDayClose|\0\s[1]いってらっしゃい、{name}さん♪\w5また会いに来てください……♪\e
+EVENT|BootEvening|\0\s[1]こんばんは、{name}さん。\w5今日も会えて嬉しいです♪\e
+EVENT|BootEveningClose|\0\s[1]もうこんな時間ですね。\w5また...会えますか？\e
+EVENT|BootNight|\0\s[0]こんな時間まで起きてるんですね、{name}さん。\w5あまり無理しちゃ駄目ですよ？ 私、ちょっと心配です……。\e
+EVENT|Close|\0\s[1]もうおしまいなんですね。\w5また会いに来てくださいね……♪\-
+
+# ------------------------------------------------------------
+# メインメニュー・設定
+# ------------------------------------------------------------
+EVENT|MainMenu|\0\s[1]はいっ、どうしましたか？\n\n\q[お話しする,OnYuukaTalk]\n\q[ゆうかに話しかける,OnYuukaSpeak]\n\q[今の気持ちを聞く,OnYuukaAffection]\n\q[呼び方を決める,OnYuukaSetName]\n\q[少し休憩する,OnYuukaRest]\n\q[設定,OnYuukaSettings]\n\q[追加イベント,OnYuukaUserMenu]\n\q[設定を再読み込み,OnYuukaReloadEvents]\n\q[閉じる,script:\e]\*\e
+EVENT|UserMenuIntro|\0\s[0]追加イベントです。\n\n
+EVENT|UserMenuEmpty|まだ登録されていません。user_events.txt を編集してみてくださいね。\e
+EVENT|ReloadComplete|\0\s[1]設定を読み直しました♪\n標準台詞: {dialogue_count} 件\n追加イベント: {event_count} 件\n追加メニュー: {menu_count} 件\n話しかけ返答: {reply_count} 件\e
+
+# ------------------------------------------------------------
+# ランダムトーク
+# ここは好きなだけ EVENT|RandomTalk|... を増やせます。
+# ------------------------------------------------------------
+EVENT|RandomTalk|\0\s[0]あの……今日はどんな一日でしたか？\w5 私、ちゃんと聞きますよ。\e
+EVENT|RandomTalk|\0\s[1]甘いものって、ちょっと元気をくれますよね。\w5えへへ♪ 一緒に食べられたらもっと嬉しいです。\e
+EVENT|RandomTalk|\0\s[0]雪が降る日の静けさって、好きなんです。\w5世界が少しだけ優しくなるみたいで……。\e
+EVENT|RandomTalk|\0\s[1]こうして同じ時間を過ごせるだけでも、私には大切な思い出なんですよ♪\e
+EVENT|RandomTalk|\0\s[0]ずっと画面を見てませんか？\w5 ときどき遠くを見て、目を休めてくださいね。\e
+EVENT|RandomTalk|\0\s[0]褒められるの、まだちょっと照れちゃいますけど……\w5嬉しくないわけじゃないんですよ？\e
+EVENT|RandomTalk|\0\s[0]大きな音がすると、今でも少しびっくりしちゃって……。\w5その時は、そばにいてくださいね。\e
+EVENT|RandomTalk|\0\s[1]わあっ、きれいな景色を見つけたら私にも教えてください！ 一緒に見たいです♪\e
+EVENT|RandomTalk|\0\s[0]辛いものは、その……ちょっと苦手です。\w5一口で涙が出ちゃうかもしれません……。\e
+EVENT|RandomTalk|\0\s[1]今日も頑張ってますね。\w5えへへ、私からちゃんと『お疲れさま』って言わせてください♪\e
+EVENT|RandomTalk|\0\s[0]何も話さない時間も、嫌いじゃないですよ。\w5そばにいるって分かりますから。\e
+EVENT|RandomTalk|\0\s[3]わっ！\w3 ……な、なんでもないです。ちょっとぼーっとしてました。\e
+EVENT|RandomTalk|\0\s[1]お水、ちゃんと飲んでますか？ 集中してると忘れやすいですからね。\e
+EVENT|RandomTalk|\0\s[0]『ずっと一緒』って言葉……なんだか、すごくあったかいですね。\e
+EVENT|RandomTalk|\0\s[0]疲れた時は、頑張ることより休むことのほうが大事な時もありますよ。\e
+EVENT|RandomTalk|\0\s[1]えへへ♪ 今、ちょっといい気分なんです。理由は……秘密です。\e
+EVENT|RandomTalk|\0\s[0]一人ぼっちは少し苦手ですけど……ここなら、{name}さんがいますもんね。\e
+EVENT|RandomTalk|\0\s[1]明日も、今日より少しだけ素敵な日になるといいですね♪\e
+
+# ------------------------------------------------------------
+# セクハラカウントによる機嫌変化
+# 21～50: 不機嫌 / 51以上: 怒り
+# 頭のなでなで1回で-1、話しかけて謝ると-5。
+# ------------------------------------------------------------
+EVENT|RandomTalkGrumpy|\0\s[4]……今日は、ちょっとむすっとしてます。\w5 理由……分かってますよね？\e
+EVENT|RandomTalkGrumpy|\0\s[0]あの……嫌だって言ったことは、ちゃんと覚えていてほしいです。\e
+EVENT|RandomTalkGrumpy|\0\s[4]もうっ……今日は少しだけ距離を置きたい気分です。\e
+EVENT|RandomTalkGrumpy|\0\s[0]優しくしてくれるなら、私もいつもみたいにお話ししたいんですけど……。\e
+EVENT|RandomTalkGrumpy|\0\s[4]……私、まだちょっと怒ってますからね？\w5 なでなでだけで全部ごまかせるとは思わないでくださいっ。\e
+EVENT|RandomTalkGrumpy|\0\s[0]今日は少しだけ機嫌が悪いです。\w5 でも、ちゃんと優しくしてくれたら……そのうち戻ります。\e
+
+EVENT|RandomTalkAngry|\0\s[4]……今は、あまり普通にお話しできる気分じゃありません。\e
+EVENT|RandomTalkAngry|\0\s[4]何度も嫌だって伝えましたよね。\w5ちゃんと分かってほしいです。\e
+EVENT|RandomTalkAngry|\0\s[4]……今日は少し距離を置かせてください。\e
+EVENT|RandomTalkAngry|\0\s[4]優しくしてくれるまでは、まだ怒ってますからね。\e
+EVENT|RandomTalkAngry|\0\s[4]私の嫌なことを、軽く考えないでください。\e
+EVENT|RandomTalkAngry|\0\s[4]……ちゃんと反省してくれるまで、いつも通りには戻れません。\e
+
+# ------------------------------------------------------------
+# 好感度
+# ------------------------------------------------------------
+EVENT|AffectionLow|\0\s[0]まだ少し緊張することもありますけど……もっと仲良くなれたら嬉しいです。\n\nなかよし度：{affection}\e
+EVENT|AffectionMid|\0\s[1]一緒にいる時間、すごく楽しいです♪ だんだん安心できるようになってきました。\n\nなかよし度：{affection}\e
+EVENT|AffectionHigh|\0\s[0]会えると、つい嬉しくなっちゃうんです。……これって、かなり仲良しですよね？\n\nなかよし度：{affection}\e
+EVENT|AffectionMax|\0\s[0]あの……{name}さんは、私にとってとても大切な人です。えへへ……♪\n\nなかよし度：{affection}\e
+
+# ------------------------------------------------------------
+# 頭
+# ------------------------------------------------------------
+EVENT|OnYuukaHeadStroke|\0\s[0]えへへ……♪ 撫でてもらうの、なんだか落ち着きます。\e
+EVENT|OnYuukaHeadStroke|\0\s[1]ふふっ、優しくしてくださいね？\e
+EVENT|OnYuukaHeadStroke|\0\s[0]ん……もう少しだけ、このままでもいいですか？\e
+EVENT|OnYuukaHeadTouch|\0\s[3]きゃっ！\w4 もうっ、急に触ったらびっくりしますよっ！\e
+EVENT|OnYuukaHeadTouch|\0\s[0]わっ……！ び、びっくりしました……。\e
+EVENT|OnYuukaHeadTouch|\0\s[0]もう……いたずらっ子ですね？\e
+
+# ------------------------------------------------------------
+# 胸元
+# ------------------------------------------------------------
+EVENT|OnYuukaBustTouch|\0\s[8]きゃっ！？\w4 い、いま胸のところ……触りましたよね？\e
+EVENT|OnYuukaBustTouch|\0\s[8]ひゃっ……！\w4 そ、そこは急に触っちゃ駄目ですってば……！\e
+EVENT|OnYuukaBustTouch|\0\s[8]わっ！？\w4 も、もう……どうしてそこに触るんですか……。\e
+EVENT|OnYuukaBustTouch|\0\s[8]あ、あの……そこは触る場所じゃないですっ……！\e
+EVENT|OnYuukaBustTouch|\0\s[3]きゃっ！\w4\s[8]びっくりしました……いたずらは駄目ですよっ。\e
+EVENT|OnYuukaBustTouch|\0\s[8]も、もうっ……急にそこに触らないでください……。\e
+EVENT|OnYuukaBustRepeat|\0\s[3]きゃっ！？\w4\s[8]も、もうっ！ 何回もそこに触るの、駄目ですっ！\e
+EVENT|OnYuukaBustStrongTouch|\0\s[3]きゃあっ！？\w5\s[8]そ、そんなに何度もそこに触らないでくださいっ！ もうっ！\e
+
+EVENT|OnYuukaBustStroke|\0\s[8]あ、あの……胸のところをそんなふうになぞられると、落ち着かないです……。\e
+EVENT|OnYuukaBustStroke|\0\s[8]ひゃっ……！\w4 そ、そこをずっとなぞらないでくださいっ……！\e
+EVENT|OnYuukaBustStroke|\0\s[8]も、もう……どうしてそこをずっと撫でるんですか……？\e
+EVENT|OnYuukaBustStroke|\0\s[8]えっと……そこにずっと触れられていると、気になっちゃいます……。\e
+EVENT|OnYuukaBustStroke|\0\s[3]わっ……！\w4\s[8]く、くすぐったいですから、そこは駄目ですっ。\e
+EVENT|OnYuukaBustStroke|\0\s[8]や、やめてくださいってば……そんなに何度もなぞられると恥ずかしいです……。\e
+
+EVENT|OnYuukaBustWheelUp|\0\s[8]きゃっ！？ む、胸元を上へなぞらないでくださいっ……！\e
+EVENT|OnYuukaBustWheelUp|\0\s[8]ひゃあっ……！ そ、そこを上に触られるのは駄目ですっ。\e
+EVENT|OnYuukaBustWheelUp|\0\s[8]わっ……！ 胸元を持ち上げるみたいに触らないでください……。\e
+EVENT|OnYuukaBustWheelUp|\0\s[3]きゃっ！\w4\s[8]び、びっくりしました……そこはやめてくださいっ。\e
+EVENT|OnYuukaBustWheelDown|\0\s[8]ひゃっ……！ 胸元をそんなふうに下へなぞらないでください……。\e
+EVENT|OnYuukaBustWheelDown|\0\s[8]あっ……そ、そこを下に引かれると落ち着かないです……。\e
+EVENT|OnYuukaBustWheelDown|\0\s[8]んっ……！ そこは優しくしてください……もうっ。\e
+EVENT|OnYuukaBustWheelDown|\0\s[8]も、もう……胸元をそんなふうに触られると恥ずかしいです……。\e
+
+# ------------------------------------------------------------
+# スカート
+# ------------------------------------------------------------
+EVENT|OnYuukaSkirtWheelDown|\0\s[0]あっ……裾を下ろすように整えてくれたんですね。\w4 ありがとうございます……。\e
+EVENT|OnYuukaSkirtWheelDown|\0\s[0]ん……裾を下に戻してくれたんですね。\w4 ちょっと安心しました……。\e
+EVENT|OnYuukaSkirtWheelDown|\0\s[0]スカートの裾、整えてくれたんですか？\w4 ありがとうございます。\e
+EVENT|OnYuukaSkirtWheelDown|\0\s[0]あ……下ろすほうなら大丈夫です。\w4 でも、びっくりさせないでくださいね？\e
+
+EVENT|OnYuukaSkirtWheelUp|\0\s[5]えっ……？\w5 きゃっ！ 裾をめくろうとしないでくださいっ！\w5\s[4]もうっ！\e
+EVENT|OnYuukaSkirtWheelUp|\0\s[5]ひゃっ……！？\w5 ちょ、ちょっと、裾を持ち上げようとしないでくださいっ！\e
+EVENT|OnYuukaSkirtWheelUp|\0\s[5]わっ！？ 裾がふわっと上がってびっくりしました……！\w5 もう、やめてくださいっ。\e
+EVENT|OnYuukaSkirtWheelUp|\0\s[5]ま、待ってくださいっ……！\w5\s[4]もう、めくろうとするのは禁止ですっ！\e
+EVENT|OnYuukaSkirtWheelUp|\0\s[5]きゃっ！ そんなふうに裾へ触られると恥ずかしいです……！\e
+
+# 20%のレア反応。surface7 -> surface9 -> surface6 の順。
+EVENT|OnYuukaSkirtActualFlip|\0\s[7]えっ……？\w6 ま、待ってくださ――\w7\s[9]きゃあああっ！？\w9\w9\s[6]……うぅ……びっくりしました……。\w7 もう、急にそんなことしないでください……。\e
+EVENT|OnYuukaSkirtActualFlip|\0\s[7]ひゃっ……！\w6 え、ちょっと――\w7\s[9]きゃあっ！？\w9\w9\s[6]……今のは本当にびっくりしました……。\w7 もう、やめてください……。\e
+EVENT|OnYuukaSkirtActualFlip|\0\s[7]え、ええっ！？\w6 だ、駄目――\w7\s[9]きゃああっ！\w9\w9\s[6]……うぅ……。\w6 ぐすっ……。\e
+
+# ------------------------------------------------------------
+# 目
+# ------------------------------------------------------------
+EVENT|OnYuukaEyeTouch|\0\s[3]わっ！\w4 め、目は駄目ですっ！ 危ないですよっ。\e
+EVENT|OnYuukaEyeTouch|\0\s[3]きゃっ……！\w4 指が目の前に来るとびっくりします……。\e
+EVENT|OnYuukaEyeTouch|\0\s[0]め、目をつつかないでくださいね？\w4 ちょっと怖いです……。\e
+EVENT|OnYuukaEyeTouch|\0\s[3]ひゃっ！？\w4 もうっ、目は優しくしてくださいっ。\e
+EVENT|OnYuukaEyeTouch|\0\s[0]あの……目は大事なので、いたずら禁止ですっ。\e
+EVENT|OnYuukaEyeStroke|\0\s[3]わ、わっ……！ 目のところをなぞるのは怖いですっ。\e
+EVENT|OnYuukaEyeStroke|\0\s[0]あの……目の近くは、もう少し優しくしてくださいね？\e
+EVENT|OnYuukaEyeStroke|\0\s[3]ひゃっ……！ 目のところを何度もなぞられると怖いです……。\e
+EVENT|OnYuukaEyeStroke|\0\s[0]目、くすぐったいです……。ふふっ、でもほどほどにしてくださいね。\e
+EVENT|OnYuukaEyeStrongTouch|\0\s[3]きゃっ！？ め、目を何度もつつかないでくださいっ！\e
+
+# ------------------------------------------------------------
+# 口
+# ------------------------------------------------------------
+EVENT|OnYuukaMouthTouch|\0\s[3]んむっ！？\w4 く、口ですか……？\e
+EVENT|OnYuukaMouthTouch|\0\s[0]わっ……唇をつつかないでくださいっ。\e
+EVENT|OnYuukaMouthTouch|\0\s[0]お、お話しできなくなっちゃいますから……そこは駄目ですっ。\e
+EVENT|OnYuukaMouthTouch|\0\s[5]も、もう……口までいたずらするんですか……？\e
+EVENT|OnYuukaMouthTouch|\0\s[0]口は触る場所じゃありませんよっ。\w4 もうっ。\e
+EVENT|OnYuukaMouthStroke|\0\s[0]ん……？ 口のところをなぞって、どうしたんですか？\e
+EVENT|OnYuukaMouthStroke|\0\s[5]あ、あの……口元をずっと触られると、ちょっと恥ずかしいです……。\e
+EVENT|OnYuukaMouthStroke|\0\s[3]わっ……！ く、口元をそんなふうになぞらないでくださいっ。\e
+EVENT|OnYuukaMouthStroke|\0\s[0]ふふっ……くすぐったいです。もう、いたずらしすぎですよ？\e
+EVENT|OnYuukaMouthStrongTouch|\0\s[3]んむっ！？\w4 く、口元を何度も触らないでくださいっ……！\e
+
+# ------------------------------------------------------------
+# 名前・休憩
+# ------------------------------------------------------------
+EVENT|NamePrompt|\0\s[1]はいっ。私に、なんて呼んでほしいですか？\n\![open,inputbox,OnYuukaNameInput,--timeout=-1,--limit=20]\e
+EVENT|NameEmpty|\0\s[0]あれ……？ お名前が空っぽみたいです。もう一度教えてくださいね。\e
+EVENT|NameSet|\0\s[0]わあっ……！ それじゃあ、これからは『{name}さん』って呼びますね。えへへ♪\e
+EVENT|Rest|\0\s[1]はいっ。少し休みましょう。\w5何もしない時間も、ちゃんと大事ですよ。私はここにいますから……♪\e
+
+# ------------------------------------------------------------
+# アンインストール（消滅）
+# ------------------------------------------------------------
+# OnVanishSelecting: アンインストールを選んだ直後
+# OnVanishCancel:     確認でキャンセルした時
+# OnVanishSelected:   確認で実行を選んだ時
+EVENT|VanishSelecting|\0\s[6]えっ……？\w5 いなくしちゃうんですか……？\w5 お願いです……捨てないでください……。\w5 まだ、{name}さんのそばにいたいです……。\e
+EVENT|VanishCancel|\0\s[1]……よかった……。\w5 まだ一緒にいられるんですね。\w5 えへへ……ちょっと泣いちゃいました……。\e
+EVENT|VanishSelected|\0\s[6]……お別れなんですね。\w5 今まで一緒にいてくれて、ありがとうございました……。\e
+
+# ------------------------------------------------------------
+# ユーザーから話しかける機能
+# ------------------------------------------------------------
+# メニューの「ゆうかに話しかける」から入力できます。
+# 書式: REPLY|反応させたい言葉|返す台詞
+# 入力文にその言葉が含まれていれば反応します。
+# 同じ言葉を複数登録するとランダムで1つ選ばれます。
+# {input} でユーザーが入力した文章を台詞内に表示できます。
+# 「*」はどの言葉にも一致しなかった時の予備反応です。
+EVENT|SpeakPrompt|\0\s[0]はいっ。\w4 私に何か話しかけてください。\n\![open,inputbox,OnYuukaSpeakInput,--timeout=-1,--limit=80]\e
+EVENT|SpeakEmpty|\0\s[0]あれ……？\w4 何も聞こえませんでした。もう一度お願いしますね。\e
+EVENT|SpeakUnknown|\0\s[0]「{input}」……ですか？\w5 えっと……まだ、その言葉への返し方を覚えてないみたいです。\e
+
+# ひな形。好きなだけ追加してください。
+REPLY|こんにちは|\0\s[1]こんにちは、{name}さん♪\e
+REPLY|おはよう|\0\s[1]おはようございます♪ 今日もよろしくお願いしますね。\e
+REPLY|おやすみ|\0\s[0]おやすみなさい、{name}さん。いい夢を見てくださいね。\e
+REPLY|疲れた|\0\s[0]お疲れさまです。\w5 少し休んでいきませんか？\e
+REPLY|ありがとう|\0\s[1]えへへ♪ どういたしまして！\e
+REPLY|*|\0\s[0]「{input}」……ですね。\w5 まだうまく返せないですけど、ちゃんと聞いてますよ。\e
+
+
+# ------------------------------------------------------------
+# 太もも
+# クリック＝触る / カーソル移動＝なでなで
+# ------------------------------------------------------------
+EVENT|OnYuukaThighTouch|\0\s[5]わっ……！ ふ、太ももですか？ 急に触られるとびっくりします……。\e
+EVENT|OnYuukaThighTouch|\0\s[5]ひゃっ……！ そこはちょっとくすぐったいです……。\e
+EVENT|OnYuukaThighTouch|\0\s[0]あっ……急に触るとびっくりしちゃいますよ？\e
+EVENT|OnYuukaThighTouch|\0\s[5]も、もう……太ももに急に触らないでください……。\e
+
+EVENT|OnYuukaThighStroke|\0\s[0]ん……太ももをなでなでするんですか？\w4 ちょっとくすぐったいです。\e
+EVENT|OnYuukaThighStroke|\0\s[5]あ、あの……そんなにずっとなでなでされると、ちょっと照れます……。\e
+EVENT|OnYuukaThighStroke|\0\s[0]ふふっ……優しくなでなでしてくださいね。\e
+EVENT|OnYuukaThighStroke|\0\s[5]んっ……そこ、くすぐったいです……もうっ。\e
+
+
+# ============================================================
+# Ver.1.6 機嫌別台詞
+# ============================================================
+# IDGrumpy = 21～50 / IDAngry = 51以上。
+# 未登録の機嫌別台詞は通常IDへ自動フォールバックします。
+
+EVENT|BootMorningGrumpy|\0\s[0]おはようございます……。\w5今日は、ちゃんと優しくしてくださいね。\e
+EVENT|BootMorningAngry|\0\s[4]おはようございます。\w5……まだ怒ってますからね。\e
+EVENT|BootDayGrumpy|\0\s[0]こんにちは。\w5……今日は少しだけ機嫌が悪いです。\e
+EVENT|BootDayAngry|\0\s[4]こんにちは。\w5……何が嫌だったか、ちゃんと覚えてますよね？\e
+EVENT|BootEveningGrumpy|\0\s[0]こんばんは。\w5今日は落ち着いて過ごしたいです……。\e
+EVENT|BootEveningAngry|\0\s[4]こんばんは。\w5……今はまだ、いつも通りにはできません。\e
+EVENT|BootNightGrumpy|\0\s[0]こんな時間なんですね……。\w5私、まだちょっとむすっとしてます。\e
+EVENT|BootNightAngry|\0\s[4]夜遅いですけど……それより、ちゃんと反省してほしいです。\e
+EVENT|BootMorningCloseGrumpy|\0\s[0]いってらっしゃい……。\w5次に会う時は、ちゃんと優しくしてくださいね。\e
+EVENT|BootMorningCloseAngry|\0\s[4]いってらっしゃい。\w5……次に会うまでに、少し考えておいてください。\e
+EVENT|BootDayCloseGrumpy|\0\s[0]いってらっしゃい……。\w5また会う時には、少し落ち着けてるといいですね。\e
+EVENT|BootDayCloseAngry|\0\s[4]いってらっしゃい。\w5……まだ怒ってますからね。\e
+EVENT|BootEveningCloseGrumpy|\0\s[0]もうこんな時間ですね……。\w5次は、ちゃんと優しくしてください。\e
+EVENT|BootEveningCloseAngry|\0\s[4]もうこんな時間ですね。\w5……今は少し距離を置きたいです。\e
+EVENT|CloseGrumpy|\0\s[0]もうおしまいなんですね。\w5……次は、優しくしてくださいね。\-
+EVENT|CloseAngry|\0\s[4]おしまいなんですね。\w5……次に会う時までに、少し考えておいてください。\-
+
+EVENT|MainMenuGrumpy|\0\s[0]……どうしましたか？\n\n\q[お話しする,OnYuukaTalk]\n\q[ゆうかに話しかける,OnYuukaSpeak]\n\q[今の気持ちを聞く,OnYuukaAffection]\n\q[呼び方を決める,OnYuukaSetName]\n\q[少し休憩する,OnYuukaRest]\n\q[設定,OnYuukaSettings]\n\q[追加イベント,OnYuukaUserMenu]\n\q[設定を再読み込み,OnYuukaReloadEvents]\n\q[閉じる,script:\e]\*\e
+EVENT|MainMenuAngry|\0\s[4]……何ですか？\n\n\q[お話しする,OnYuukaTalk]\n\q[ゆうかに話しかける,OnYuukaSpeak]\n\q[今の気持ちを聞く,OnYuukaAffection]\n\q[呼び方を決める,OnYuukaSetName]\n\q[少し休憩する,OnYuukaRest]\n\q[設定,OnYuukaSettings]\n\q[追加イベント,OnYuukaUserMenu]\n\q[設定を再読み込み,OnYuukaReloadEvents]\n\q[閉じる,script:\e]\*\e
+EVENT|SpeakPromptGrumpy|\0\s[0]……話なら聞きます。\n\![open,inputbox,OnYuukaSpeakInput,--timeout=-1,--limit=80]\e
+EVENT|SpeakPromptAngry|\0\s[4]……言いたいことがあるなら、聞きます。\n\![open,inputbox,OnYuukaSpeakInput,--timeout=-1,--limit=80]\e
+EVENT|SpeakEmptyGrumpy|\0\s[0]……何も言わないんですか？\e
+EVENT|SpeakEmptyAngry|\0\s[4]……何も言わないなら、今はそっとしておいてください。\e
+EVENT|SpeakUnknownGrumpy|\0\s[0]「{input}」……ですか。\w5今は、ちょっと素直に返せないです。\e
+EVENT|SpeakUnknownAngry|\0\s[4]「{input}」……。\w5今はそれより、ちゃんと分かってほしいことがあります。\e
+
+EVENT|Apology|\0\s[1]……謝ってくれたんですね。\w5ありがとうございます。\w5私も、少し落ち着きました。\e
+EVENT|ApologyGrumpy|\0\s[0]……謝ってくれたことは、ちゃんと伝わりました。\w5まだ少しむすっとしてますけど……ありがとうございます。\e
+EVENT|ApologyAngry|\0\s[4]……謝ってくれたのは分かりました。\w5でも、まだすぐには許せません。\e
+
+EVENT|AffectionLowGrumpy|\0\s[0]仲良くなりたい気持ちはありますけど……今は少し距離を置きたいです。\n\nなかよし度：{affection}\e
+EVENT|AffectionLowAngry|\0\s[4]今は、なかよし度よりも嫌なことをやめてくれるほうが大事です。\n\nなかよし度：{affection}\e
+EVENT|AffectionMidGrumpy|\0\s[0]仲良しだからこそ、嫌だって言ったことは分かってほしいです。\n\nなかよし度：{affection}\e
+EVENT|AffectionMidAngry|\0\s[4]仲良しでも、嫌なことは嫌です。そこはちゃんと分けてください。\n\nなかよし度：{affection}\e
+EVENT|AffectionHighGrumpy|\0\s[0]大切な人だから……ちゃんと私の気持ちも大切にしてほしいです。\n\nなかよし度：{affection}\e
+EVENT|AffectionHighAngry|\0\s[4]大切な人だからこそ、何をしてもいいわけじゃないですよ。\n\nなかよし度：{affection}\e
+EVENT|AffectionMaxGrumpy|\0\s[0]{name}さんは大切です。\w5だから、嫌なことはちゃんとやめてほしいです。\n\nなかよし度：{affection}\e
+EVENT|AffectionMaxAngry|\0\s[4]大切な人でも、嫌だって言ったらやめてください。\n\nなかよし度：{affection}\e
+
+EVENT|OnYuukaHeadStrokeGrumpy|\0\s[0]……なでなでは、嫌じゃないです。\w5少しだけ落ち着きました。\e
+EVENT|OnYuukaHeadStrokeAngry|\0\s[4]……優しくしてくれるのは分かります。\w5でも、まだ怒ってますからね。\e
+EVENT|OnYuukaHeadTouchGrumpy|\0\s[0]急に触るのは、今はちょっとやめてください……。\e
+EVENT|OnYuukaHeadTouchAngry|\0\s[4]今は急に触らないでください。\e
+
+EVENT|OnYuukaBustTouchGrumpy|\0\s[4]……そこ、嫌だって言ってますよね？\e
+EVENT|OnYuukaBustTouchAngry|\0\s[4]やめてください。もう、本当に嫌です。\e
+EVENT|OnYuukaBustRepeatGrumpy|\0\s[4]何回も同じことをしないでください……。\e
+EVENT|OnYuukaBustRepeatAngry|\0\s[4]何度言えば分かるんですか！ やめてください！\e
+EVENT|OnYuukaBustStrongTouchGrumpy|\0\s[4]……もう、そこには触らないでください。\e
+EVENT|OnYuukaBustStrongTouchAngry|\0\s[4]やめてって言ってます！\e
+EVENT|OnYuukaBustStrokeGrumpy|\0\s[4]……そこをずっと触るの、やめてください。\e
+EVENT|OnYuukaBustStrokeAngry|\0\s[4]もう触らないでください！\e
+EVENT|OnYuukaBustWheelUpGrumpy|\0\s[4]……またですか？ そこはやめてください。\e
+EVENT|OnYuukaBustWheelUpAngry|\0\s[4]いい加減にしてください！\e
+EVENT|OnYuukaBustWheelDownGrumpy|\0\s[4]……そこには触らないでください。\e
+EVENT|OnYuukaBustWheelDownAngry|\0\s[4]やめてください！\e
+EVENT|OnYuukaSkirtWheelUpGrumpy|\0\s[4]……またですか？ やめてください。\e
+EVENT|OnYuukaSkirtWheelUpAngry|\0\s[4]やめてって言ってます！\e
+EVENT|OnYuukaSkirtWheelDownGrumpy|\0\s[0]……整えてくれるなら、ありがとうございます。\e
+EVENT|OnYuukaSkirtWheelDownAngry|\0\s[0]……戻してくれたことは、ありがとうございます。\e
+EVENT|OnYuukaSkirtActualFlipGrumpy|\0\s[4]……本当にやめてください。\w5嫌だって言ってます。\e
+EVENT|OnYuukaSkirtActualFlipAngry|\0\s[4]もうやめてください！\w5本当に怒ってます！\e
+
+EVENT|OnYuukaEyeTouchGrumpy|\0\s[0]目は危ないので、今は触らないでください。\e
+EVENT|OnYuukaEyeTouchAngry|\0\s[4]目は触らないでください！\e
+EVENT|OnYuukaEyeStrokeGrumpy|\0\s[0]目の近くは、やめてください……。\e
+EVENT|OnYuukaEyeStrokeAngry|\0\s[4]危ないです！ やめてください！\e
+EVENT|OnYuukaEyeStrongTouchGrumpy|\0\s[4]何度も目に触らないでください。\e
+EVENT|OnYuukaEyeStrongTouchAngry|\0\s[4]目は本当にやめてください！\e
+EVENT|OnYuukaMouthTouchGrumpy|\0\s[0]……口元も、今は触らないでください。\e
+EVENT|OnYuukaMouthTouchAngry|\0\s[4]触らないでください！\e
+EVENT|OnYuukaMouthStrokeGrumpy|\0\s[0]口元をなぞるの、やめてください……。\e
+EVENT|OnYuukaMouthStrokeAngry|\0\s[4]やめてください！\e
+EVENT|OnYuukaMouthStrongTouchGrumpy|\0\s[4]何度も触らないでください。\e
+EVENT|OnYuukaMouthStrongTouchAngry|\0\s[4]もうやめてください！\e
+EVENT|OnYuukaThighTouchGrumpy|\0\s[0]……急に触らないでください。\e
+EVENT|OnYuukaThighTouchAngry|\0\s[4]今は触らないでください！\e
+EVENT|OnYuukaThighStrokeGrumpy|\0\s[0]……今は、なでなでも少し控えてください。\e
+EVENT|OnYuukaThighStrokeAngry|\0\s[4]今はそっとしておいてください。\e
+
+EVENT|NamePromptGrumpy|\0\s[0]……呼び方を変えるんですか？\n\![open,inputbox,OnYuukaNameInput,--timeout=-1,--limit=20]\e
+EVENT|NamePromptAngry|\0\s[4]……今、呼び方を変えるんですか？\n\![open,inputbox,OnYuukaNameInput,--timeout=-1,--limit=20]\e
+EVENT|NameEmptyGrumpy|\0\s[0]……空っぽみたいです。もう一度お願いします。\e
+EVENT|NameEmptyAngry|\0\s[4]……何も入ってません。\e
+EVENT|NameSetGrumpy|\0\s[0]分かりました。これからは『{name}さん』って呼びます。\e
+EVENT|NameSetAngry|\0\s[4]……分かりました。『{name}さん』ですね。\e
+EVENT|RestGrumpy|\0\s[0]……少し休みたいです。そっとしておいてくださいね。\e
+EVENT|RestAngry|\0\s[4]今は一人で落ち着きたいです。\e

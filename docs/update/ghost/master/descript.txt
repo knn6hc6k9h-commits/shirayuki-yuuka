@@ -1,0 +1,14 @@
+charset,UTF-8
+type,ghost
+name,白雪ゆうか
+id,shirayukiyuuka
+craftman,knn6hc6k9h-commits
+craftmanw,knn6hc6k9h-commits
+craftmanurl,https://knn6hc6k9h-commits.github.io/shirayuki-yuuka/
+homeurl,https://knn6hc6k9h-commits.github.io/shirayuki-yuuka/update/
+sakura.name,ゆうか
+kero.name,
+shiori,shiori.dll
+shiori.encoding,UTF-8
+seriko.defaultsurfacedirectoryname,master
+sakura.seriko.defaultsurface,0

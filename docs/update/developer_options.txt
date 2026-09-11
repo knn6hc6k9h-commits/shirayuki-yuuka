@@ -1,0 +1,7 @@
+# SSP 配布/NAR/ネットワーク更新用の除外設定
+# ユーザー個人の状態保存ファイルは配布・更新しない
+ghost/master/yuuka_state.dat,nonar,noupdate
+ghost/master/profile/,nonar,noupdate
+shell/master/profile/,nonar,noupdate
+# 開発用ソース・中間生成物はユーザー配布しない
+source/,nonar,noupdate

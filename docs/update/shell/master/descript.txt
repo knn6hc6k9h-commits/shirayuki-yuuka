@@ -1,0 +1,9 @@
+charset,UTF-8
+name,白雪ゆうか・制服
+id,master
+type,shell
+sakura.name,ゆうか
+seriko.use_self_alpha,1
+craftman,knn6hc6k9h-commits
+craftmanw,knn6hc6k9h-commits
+craftmanurl,https://knn6hc6k9h-commits.github.io/shirayuki-yuuka/
