@@ -5,6 +5,7 @@ on:
     paths:
       - 'source/shiori_wrapper.c'
       - 'source/shiori_feature6.c'
+      - 'source/shiori_callname*'
       - 'source/shiori_wrapper.ready'
       - '.github/workflows/assemble-shiori-wrapper.yml'
   workflow_dispatch:
@@ -27,41 +28,67 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y gcc-mingw-w64-i686
 
-      - name: Build wrapper DLL
+      - name: Build wrapper DLLs
         shell: bash
         run: |
-          i686-w64-mingw32-gcc -shared -Os -s -o docs/update/ghost/master/shiori.dll source/shiori_feature6.c -Wl,--kill-at
+          i686-w64-mingw32-gcc -shared -Os -s -o docs/update/ghost/master/shiori_base.dll source/shiori_feature6.c -Wl,--kill-at
+          i686-w64-mingw32-gcc -shared -Os -s -o docs/update/ghost/master/shiori.dll source/shiori_callname.c -Wl,--kill-at
+          file docs/update/ghost/master/shiori_base.dll
           file docs/update/ghost/master/shiori.dll
+          test -s docs/update/ghost/master/shiori_base.dll
           test -s docs/update/ghost/master/shiori.dll
 
-      - name: Refresh update manifests
+      - name: Refresh wrapper entries in update manifests
         shell: bash
         run: |
           python3 - <<'PY'
           from pathlib import Path
           import hashlib
 
-          dll = Path('docs/update/ghost/master/shiori.dll')
-          digest = hashlib.md5(dll.read_bytes()).hexdigest()
-          size = dll.stat().st_size
           sep = '\x01'
+          files = [
+              'ghost/master/shiori.dll',
+              'ghost/master/shiori_base.dll',
+          ]
 
-          p = Path('docs/update/updates2.dau')
-          lines = p.read_text(encoding='utf-8').splitlines()
-          prefix = 'ghost/master/shiori.dll' + sep
-          replacement = f'ghost/master/shiori.dll{sep}{digest}{sep}size={size}{sep}'
-          lines = [replacement if line.startswith(prefix) else line for line in lines]
-          p.write_bytes(('\r\n'.join(lines) + '\r\n').encode('utf-8'))
+          for rel in files:
+              p = Path('docs/update') / rel
+              digest = hashlib.md5(p.read_bytes()).hexdigest()
+              size = p.stat().st_size
 
-          p = Path('docs/update/updates.txt')
-          lines = p.read_text(encoding='utf-8').splitlines()
-          prefix = 'file,ghost/master/shiori.dll' + sep
-          replacement = f'file,ghost/master/shiori.dll{sep}{digest}{sep}size={size}{sep}'
-          lines = [replacement if line.startswith(prefix) else line for line in lines]
-          p.write_bytes(('\r\n'.join(lines) + '\r\n').encode('utf-8'))
+              manifest = Path('docs/update/updates2.dau')
+              lines = manifest.read_text(encoding='utf-8').splitlines()
+              prefix = rel + sep
+              replacement = f'{rel}{sep}{digest}{sep}size={size}{sep}'
+              found = False
+              new_lines = []
+              for line in lines:
+                  if line.startswith(prefix):
+                      new_lines.append(replacement)
+                      found = True
+                  else:
+                      new_lines.append(line)
+              if not found:
+                  new_lines.append(replacement)
+              manifest.write_bytes(('\r\n'.join(new_lines) + '\r\n').encode('utf-8'))
 
-          print('shiori.dll MD5:', digest)
-          print('shiori.dll size:', size)
+              manifest = Path('docs/update/updates.txt')
+              lines = manifest.read_text(encoding='utf-8').splitlines()
+              prefix = 'file,' + rel + sep
+              replacement = f'file,{rel}{sep}{digest}{sep}size={size}{sep}'
+              found = False
+              new_lines = []
+              for line in lines:
+                  if line.startswith(prefix):
+                      new_lines.append(replacement)
+                      found = True
+                  else:
+                      new_lines.append(line)
+              if not found:
+                  new_lines.append(replacement)
+              manifest.write_bytes(('\r\n'.join(new_lines) + '\r\n').encode('utf-8'))
+
+              print(rel, 'MD5:', digest, 'size:', size)
           PY
 
       - name: Rebuild public NAR
@@ -77,18 +104,22 @@ jobs:
           cp docs/update/DIALOGUE_EDIT_GUIDE.txt "$work/DIALOGUE_EDIT_GUIDE.txt"
           cp docs/update/readme.txt "$work/readme.txt"
           cp docs/update/thumbnail.png "$work/thumbnail.png"
-          rm -f "$work/ghost/master/yuuka_state.dat" "$work/ghost/master/yuuka_features.dat"
+          rm -f "$work/ghost/master/yuuka_state.dat" "$work/ghost/master/yuuka_features.dat" "$work/ghost/master/yuuka_callname.dat"
           test -f "$work/install.txt"
           rm -f docs/Shirayuki_Yuuka.nar
           (cd "$work" && zip -q -r "$GITHUB_WORKSPACE/docs/Shirayuki_Yuuka.nar" .)
 
           nar_shiori="$(unzip -p docs/Shirayuki_Yuuka.nar ghost/master/shiori.dll | md5sum | awk '{print $1}')"
           src_shiori="$(md5sum docs/update/ghost/master/shiori.dll | awk '{print $1}')"
+          nar_base="$(unzip -p docs/Shirayuki_Yuuka.nar ghost/master/shiori_base.dll | md5sum | awk '{print $1}')"
+          src_base="$(md5sum docs/update/ghost/master/shiori_base.dll | awk '{print $1}')"
           nar_core="$(unzip -p docs/Shirayuki_Yuuka.nar ghost/master/shiori_core.dll | md5sum | awk '{print $1}')"
-          src_core="$(md5sum docs/update/ghost/master/shiori_core.dll | awk '{print $1}')"
+          src_core="$(md5sum docs/update/ghost/master/shiori_core.dll | md5sum | awk '{print $1}')"
           test "$nar_shiori" = "$src_shiori"
+          test "$nar_base" = "$src_base"
           test "$nar_core" = "$src_core"
           echo "NAR shiori.dll MD5: $nar_shiori"
+          echo "NAR shiori_base.dll MD5: $nar_base"
           echo "NAR shiori_core.dll MD5: $nar_core"
 
       - name: Commit built files
@@ -97,11 +128,11 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add docs/update/ghost/master/shiori.dll docs/update/updates2.dau docs/update/updates.txt docs/Shirayuki_Yuuka.nar
+          git add docs/update/ghost/master/shiori.dll docs/update/ghost/master/shiori_base.dll docs/update/updates2.dau docs/update/updates.txt docs/Shirayuki_Yuuka.nar
           if git diff --cached --quiet; then
             echo "No generated changes needed."
             exit 0
           fi
-          git commit -m "Build live dialogue reload SHIORI wrapper"
+          git commit -m "Build call-name SHIORI wrapper"
           git pull --rebase origin main
           git push origin main
