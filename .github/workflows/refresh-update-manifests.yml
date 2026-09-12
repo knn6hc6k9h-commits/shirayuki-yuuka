@@ -36,6 +36,7 @@ jobs:
           runtime_state = {
               'ghost/master/yuuka_state.dat',
               'ghost/master/yuuka_features.dat',
+              'ghost/master/menu_config.txt',
           }
 
           wanted = []
