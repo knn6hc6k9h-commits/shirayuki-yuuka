@@ -6,6 +6,7 @@ typedef unsigned long DWORD;
 typedef unsigned long SIZE_T;
 typedef unsigned short WORD;
 #define TRUE 1
+#define GPTR 0x0040u
 #define GENERIC_READ 0x80000000ul
 #define GENERIC_WRITE 0x40000000ul
 #define FILE_SHARE_READ 1ul
@@ -54,7 +55,7 @@ static void build_path(char* out,int cap,const char* dir,const char* file){
 }
 static void build_core_path(char* out,int cap,const char* dir){build_path(out,cap,dir,"shiori_core.dll");}
 
-static void init_feature(void){int i;for(i=0;i<48;++i)g_feature[i]=0;g_feature[0]='Y';g_feature[1]='U';g_feature[2]='K';g_feature[3]='F';p32(g_feature+4,1);g_has_last_seen=0;}
+static void init_feature(void){int i;for(i=0;i<48;++i)g_feature[i]=0;g_feature[0]='Y';g_feature[1]='U';g_feature[2]='K';g_feature[3]='F';p32(g_feature+4,2);g_has_last_seen=0;}
 static void load_feature(void){
   char path[1200];HANDLE f;DWORD got=0;int i;
   init_feature();build_path(path,(int)sizeof(path),g_dir,"yuuka_features.dat");
@@ -68,7 +69,7 @@ static void load_feature(void){
 }
 static void save_last_seen(void){
   char path[1200];HANDLE f;DWORD wrote=0;SYSTEMTIME s;
-  GetLocalTime(&s);p32(g_feature+8,s.wYear);p32(g_feature+12,s.wMonth);p32(g_feature+16,s.wDay);p32(g_feature+20,s.wHour);p32(g_feature+24,s.wMinute);g_has_last_seen=1;
+  GetLocalTime(&s);p32(g_feature+4,2);p32(g_feature+8,s.wYear);p32(g_feature+12,s.wMonth);p32(g_feature+16,s.wDay);p32(g_feature+20,s.wHour);p32(g_feature+24,s.wMinute);p32(g_feature+28,s.wSecond);g_has_last_seen=1;
   build_path(path,(int)sizeof(path),g_dir,"yuuka_features.dat");
   f=CreateFileA(path,GENERIC_WRITE,0,0,CREATE_ALWAYS,FILE_ATTRIBUTE_NORMAL,0);
   if(f==INVALID_HANDLE_VALUE)return;WriteFile(f,g_feature,48,&wrote,0);CloseHandle(f);
@@ -81,16 +82,19 @@ static unsigned long daystamp(unsigned long y,unsigned long m,unsigned long d){
   for(mm=1;mm<m;++mm){x+=md[mm-1];if(mm==2&&leap(y))++x;}
   return x+d-1;
 }
-static unsigned long away_minutes(void){
-  SYSTEMTIME s;unsigned long a,b,prev,cur;
+static unsigned long away_seconds(void){
+  SYSTEMTIME s;unsigned long a,b,prev,cur,sec=0;
   if(!g_has_last_seen)return 0;GetLocalTime(&s);
   a=daystamp(u32(g_feature+8),u32(g_feature+12),u32(g_feature+16));b=daystamp(s.wYear,s.wMonth,s.wDay);
-  if(!a||!b||b<a)return 0;prev=u32(g_feature+20)*60ul+u32(g_feature+24);cur=(unsigned long)s.wHour*60ul+s.wMinute;
-  if(a==b&&cur<prev)return 0;return (b-a)*1440ul+cur-prev;
+  if(!a||!b||b<a)return 0;
+  if(u32(g_feature+4)>=2&&u32(g_feature+28)<=59)sec=u32(g_feature+28);
+  prev=u32(g_feature+20)*3600ul+u32(g_feature+24)*60ul+sec;
+  cur=(unsigned long)s.wHour*3600ul+(unsigned long)s.wMinute*60ul+s.wSecond;
+  if(a==b&&cur<prev)return 0;return (b-a)*86400ul+cur-prev;
 }
 
 static int request_has_id(const char* p,int n,const char* id){
-  const char prefix[]="ID: ";int i,j,k=slen(id);
+  int i,j,k=slen(id);
   if(!p||n<=0)return 0;
   for(i=0;i+4+k<=n;++i){
     if((i==0||p[i-1]=='\n')&&p[i]=='I'&&p[i+1]=='D'&&p[i+2]==':'&&p[i+3]==' '){
@@ -99,6 +103,13 @@ static int request_has_id(const char* p,int n,const char* id){
     }
   }
   return 0;
+}
+
+static HGLOBAL make_response(const char* value,long* outlen){
+  static const char a[]="SHIORI/3.0 200 OK\r\nCharset: UTF-8\r\nSender: ShirayukiYuuka\r\nValue: ";
+  static const char e[]="\r\n\r\n";
+  int na=(int)(sizeof(a)-1),nv=slen(value),ne=(int)(sizeof(e)-1),n=na+nv+ne;char* p=(char*)GlobalAlloc(GPTR,(SIZE_T)n+1);
+  if(!p){if(outlen)*outlen=0;return 0;}copy_bytes(p,a,na);copy_bytes(p+na,value,nv);copy_bytes(p+na+nv,e,ne);p[n]=0;if(outlen)*outlen=n;return p;
 }
 
 static HGLOBAL core_event(const char* id,long* outlen){
@@ -126,16 +137,20 @@ __declspec(dllexport) BOOL __cdecl load(HGLOBAL h,long len){
 static void force_reload(void){long rn=0;HGLOBAL r=core_event("OnYuukaReloadEvents",&rn);if(r)GlobalFree(r);}
 
 __declspec(dllexport) HGLOBAL __cdecl request(HGLOBAL h,long* lenp){
-  int inlen=(lenp?(int)*lenp:0);const char* event=0;unsigned long mins;HGLOBAL r;long rn=0;
+  int inlen=(lenp?(int)*lenp:0);const char* event=0;unsigned long secs;HGLOBAL r;long rn=0;
   if(!g_request){if(h)GlobalFree(h);if(lenp)*lenp=0;return 0;}
   force_reload();
   if(h&&request_has_id((const char*)h,inlen,"OnBoot")&&g_has_last_seen){
-    mins=away_minutes();
-    if(mins>=43200ul)event="OnYuukaFeatureReturnLong";
-    else if(mins>=10080ul)event="OnYuukaFeatureReturnWeek";
-    else if(mins>=2880ul)event="OnYuukaFeatureReturnDays";
-    else if(mins>=360ul)event="OnYuukaFeatureReturnHours";
-    else if(mins>=60ul)event="OnYuukaFeatureReturnShort";
+    secs=away_seconds();
+    if(secs<=60ul){
+      r=make_response("\\0\\s[3]わっ！？\\w5もう戻ってきたんですか？\\w5えへへ……ちょっとびっくりしました。\\w5でも、またすぐ会えて嬉しいです♪\\e",&rn);
+      if(r){GlobalFree(h);if(lenp)*lenp=rn;return r;}
+    }
+    if(secs>=2592000ul)event="OnYuukaFeatureReturnLong";
+    else if(secs>=604800ul)event="OnYuukaFeatureReturnWeek";
+    else if(secs>=172800ul)event="OnYuukaFeatureReturnDays";
+    else if(secs>=21600ul)event="OnYuukaFeatureReturnHours";
+    else if(secs>=3600ul)event="OnYuukaFeatureReturnShort";
     if(event){r=core_event(event,&rn);if(r){GlobalFree(h);if(lenp)*lenp=rn;return r;}}
   }
   return g_request(h,lenp);
