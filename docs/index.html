@@ -3,168 +3,36 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="白雪ゆうか - 伺か / SSP向けゴーストの公式配布ページ。NARのダウンロードとネットワーク更新に対応しています。">
+<meta name="description" content="白雪ゆうか - 伺か / SSP向けゴーストの公式配布ページ。NARのダウンロード、SSPの導入案内、ネットワーク更新に対応しています。">
 <meta name="theme-color" content="#dff4ff">
 <meta property="og:title" content="白雪ゆうか - 伺かゴースト">
-<meta property="og:description" content="会話やリアクションを楽しめる、SSP向けゴースト『白雪ゆうか』の公式配布ページ。">
+<meta property="og:description" content="会話やリアクションを楽しめる、SSP向けゴースト『白雪ゆうか』の公式配布ページ。SSPの導入案内も掲載しています。">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://knn6hc6k9h-commits.github.io/shirayuki-yuuka/">
 <meta property="og:image" content="https://knn6hc6k9h-commits.github.io/shirayuki-yuuka/thumbnail.png">
 <title>白雪ゆうか | 伺かゴースト 公式配布ページ</title>
 <style>
-:root{
-  --bg:#eef8ff;
-  --bg2:#f9fcff;
-  --panel:rgba(255,255,255,.88);
-  --line:#d6eaf6;
-  --text:#26384a;
-  --sub:#6e8294;
-  --blue:#62b6df;
-  --blue2:#9ed8f3;
-  --blue3:#e1f5ff;
-  --shadow:0 20px 55px rgba(77,125,155,.14);
-  font-family:"Yu Gothic UI","Hiragino Kaku Gothic ProN","Meiryo",sans-serif;
-}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{
-  margin:0;
-  color:var(--text);
-  background:
-    radial-gradient(circle at 10% 10%,rgba(255,255,255,.95) 0 80px,transparent 81px),
-    radial-gradient(circle at 85% 20%,rgba(255,255,255,.8) 0 120px,transparent 121px),
-    linear-gradient(180deg,#eaf7ff 0%,#f8fcff 48%,#edf8ff 100%);
-  min-height:100vh;
-}
-a{color:#2b78a1}
-.site-header{
-  position:sticky;top:0;z-index:20;
-  backdrop-filter:blur(14px);
-  background:rgba(245,251,255,.82);
-  border-bottom:1px solid rgba(200,226,240,.8);
-}
-.nav{max-width:1060px;margin:auto;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px}
-.brand{font-weight:800;letter-spacing:.08em;color:#31566d;text-decoration:none;white-space:nowrap}
-.navlinks{display:flex;gap:18px;flex-wrap:wrap;justify-content:flex-end}
-.navlinks a{text-decoration:none;color:#668094;font-size:.92rem}
-.wrap{max-width:1060px;margin:0 auto;padding:56px 20px 80px}
-.hero{
-  position:relative;overflow:hidden;
-  display:grid;grid-template-columns:minmax(220px,360px) 1fr;gap:48px;align-items:center;
-  padding:46px;
-  background:var(--panel);
-  border:1px solid var(--line);
-  border-radius:34px;
-  box-shadow:var(--shadow);
-}
-.hero:before,.hero:after{content:"❄";position:absolute;color:rgba(113,185,220,.14);font-size:170px;line-height:1;pointer-events:none}
-.hero:before{right:-18px;top:-28px;transform:rotate(15deg)}
-.hero:after{left:-30px;bottom:-70px;font-size:140px;transform:rotate(-8deg)}
-.portrait-wrap{position:relative;z-index:1;display:flex;justify-content:center}
-.portrait-wrap img{width:min(100%,300px);max-height:470px;object-fit:contain;filter:drop-shadow(0 18px 28px rgba(68,116,145,.18))}
-.eyebrow{display:inline-flex;align-items:center;gap:8px;padding:7px 12px;border-radius:999px;background:var(--blue3);color:#4d7c97;font-size:.8rem;font-weight:700;letter-spacing:.06em}
-h1{font-size:clamp(2.7rem,7vw,5rem);line-height:1;margin:18px 0 10px;letter-spacing:.05em;color:#294a60}
-.subtitle{font-size:1.05rem;color:#6f8798;margin:0 0 22px}.lead{font-size:1.08rem;line-height:1.9;max-width:620px;margin:0}
-.buttons{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 20px;border-radius:14px;text-decoration:none;font-weight:800;transition:.18s transform,.18s box-shadow,.18s background}
-.btn:hover{transform:translateY(-2px)}
-.btn.primary{background:linear-gradient(135deg,#5cb5df,#7ac8ea);color:white;box-shadow:0 10px 26px rgba(83,169,210,.26)}
-.btn.secondary{background:white;color:#3e708c;border:1px solid #cde4f1}
-.mini{margin-top:14px;color:#8193a1;font-size:.86rem}
-section{scroll-margin-top:84px}.section{margin-top:60px}
-.section-title{text-align:center;margin-bottom:28px}.section-title h2{font-size:2rem;margin:0 0 8px;color:#31566d}.section-title p{margin:0;color:var(--sub)}
-.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.card{background:rgba(255,255,255,.84);border:1px solid var(--line);border-radius:22px;padding:24px;box-shadow:0 12px 34px rgba(75,120,150,.08)}
-.icon{width:44px;height:44px;border-radius:13px;display:grid;place-items:center;background:var(--blue3);font-size:1.25rem;margin-bottom:16px}.card h3{margin:0 0 10px}.card p{margin:0;color:var(--sub);line-height:1.75}
-.install{display:grid;grid-template-columns:1.15fr .85fr;gap:20px}.panel{background:rgba(255,255,255,.88);border:1px solid var(--line);border-radius:24px;padding:28px;box-shadow:0 12px 34px rgba(75,120,150,.08)}
-.steps{counter-reset:step;margin:0;padding:0;list-style:none}.steps li{counter-increment:step;display:grid;grid-template-columns:38px 1fr;gap:12px;align-items:start;padding:12px 0}.steps li:before{content:counter(step);width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:var(--blue3);color:#4a7b98;font-weight:800}
-.info-table{width:100%;border-collapse:collapse}.info-table th,.info-table td{padding:11px 6px;border-bottom:1px solid #e5f0f6;text-align:left;vertical-align:top}.info-table th{width:34%;color:#718696;font-weight:600}.badge{display:inline-block;padding:5px 9px;border-radius:999px;background:#eaf8ef;color:#4c7b5d;font-size:.78rem;font-weight:700}
-.changelog{display:grid;gap:12px}.change{display:grid;grid-template-columns:88px 1fr;gap:16px;padding:16px 18px;border-radius:16px;background:rgba(255,255,255,.74);border:1px solid #deedf5}.version{font-weight:800;color:#4e7f99}
-.note{margin-top:18px;padding:14px 16px;border-left:4px solid var(--blue2);background:#f7fcff;border-radius:10px;color:#647d8d;line-height:1.7}
-footer{margin-top:62px;text-align:center;color:#8799a6;font-size:.9rem}.footer-links{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin-bottom:10px}.footer-links a{text-decoration:none;color:#68869a}
-@media(max-width:820px){.hero{grid-template-columns:1fr;padding:30px 24px}.portrait-wrap img{max-height:360px}.cards{grid-template-columns:1fr}.install{grid-template-columns:1fr}.navlinks{display:none}.wrap{padding-top:30px}}
+:root{--panel:rgba(255,255,255,.88);--line:#d6eaf6;--text:#26384a;--sub:#6e8294;--blue2:#9ed8f3;--blue3:#e1f5ff;--shadow:0 20px 55px rgba(77,125,155,.14);font-family:"Yu Gothic UI","Hiragino Kaku Gothic ProN","Meiryo",sans-serif}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--text);background:radial-gradient(circle at 10% 10%,rgba(255,255,255,.95) 0 80px,transparent 81px),radial-gradient(circle at 85% 20%,rgba(255,255,255,.8) 0 120px,transparent 121px),linear-gradient(180deg,#eaf7ff 0%,#f8fcff 48%,#edf8ff 100%);min-height:100vh}a{color:#2b78a1}.site-header{position:sticky;top:0;z-index:20;backdrop-filter:blur(14px);background:rgba(245,251,255,.82);border-bottom:1px solid rgba(200,226,240,.8)}.nav{max-width:1060px;margin:auto;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px}.brand{font-weight:800;letter-spacing:.08em;color:#31566d;text-decoration:none;white-space:nowrap}.navlinks{display:flex;gap:18px;flex-wrap:wrap;justify-content:flex-end}.navlinks a{text-decoration:none;color:#668094;font-size:.92rem}.wrap{max-width:1060px;margin:0 auto;padding:56px 20px 80px}.hero{position:relative;overflow:hidden;display:grid;grid-template-columns:minmax(220px,360px) 1fr;gap:48px;align-items:center;padding:46px;background:var(--panel);border:1px solid var(--line);border-radius:34px;box-shadow:var(--shadow)}.hero:before,.hero:after{content:"❄";position:absolute;color:rgba(113,185,220,.14);font-size:170px;line-height:1;pointer-events:none}.hero:before{right:-18px;top:-28px;transform:rotate(15deg)}.hero:after{left:-30px;bottom:-70px;font-size:140px;transform:rotate(-8deg)}.portrait-wrap{position:relative;z-index:1;display:flex;justify-content:center}.portrait-wrap img{width:min(100%,300px);max-height:470px;object-fit:contain;filter:drop-shadow(0 18px 28px rgba(68,116,145,.18))}.eyebrow{display:inline-flex;align-items:center;gap:8px;padding:7px 12px;border-radius:999px;background:var(--blue3);color:#4d7c97;font-size:.8rem;font-weight:700;letter-spacing:.06em}h1{font-size:clamp(2.7rem,7vw,5rem);line-height:1;margin:18px 0 10px;letter-spacing:.05em;color:#294a60}.subtitle{font-size:1.05rem;color:#6f8798;margin:0 0 22px}.lead{font-size:1.08rem;line-height:1.9;max-width:620px;margin:0}.buttons{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 20px;border-radius:14px;text-decoration:none;font-weight:800;transition:.18s transform,.18s box-shadow,.18s background}.btn:hover{transform:translateY(-2px)}.btn.primary{background:linear-gradient(135deg,#5cb5df,#7ac8ea);color:#fff;box-shadow:0 10px 26px rgba(83,169,210,.26)}.btn.secondary{background:#fff;color:#3e708c;border:1px solid #cde4f1}.mini{margin-top:14px;color:#8193a1;font-size:.86rem}section{scroll-margin-top:84px}.section{margin-top:60px}.section-title{text-align:center;margin-bottom:28px}.section-title h2{font-size:2rem;margin:0 0 8px;color:#31566d}.section-title p{margin:0;color:var(--sub)}.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.card,.panel{background:rgba(255,255,255,.88);border:1px solid var(--line);border-radius:22px;padding:24px;box-shadow:0 12px 34px rgba(75,120,150,.08)}.icon{width:44px;height:44px;border-radius:13px;display:grid;place-items:center;background:var(--blue3);font-size:1.25rem;margin-bottom:16px}.card h3{margin:0 0 10px}.card p{margin:0;color:var(--sub);line-height:1.75}.ssp-callout{margin-bottom:20px;padding:26px 28px;background:linear-gradient(135deg,#f8fdff,#edf9ff);border:1px solid #cfe9f6;border-radius:24px;box-shadow:0 12px 34px rgba(75,120,150,.08)}.ssp-callout h3{margin:0 0 8px;color:#31566d;font-size:1.35rem}.ssp-callout p{margin:0;color:#667f90;line-height:1.8}.ssp-callout .buttons{margin-top:18px}.install{display:grid;grid-template-columns:1.15fr .85fr;gap:20px}.steps{counter-reset:step;margin:0;padding:0;list-style:none}.steps li{counter-increment:step;display:grid;grid-template-columns:38px 1fr;gap:12px;align-items:start;padding:12px 0}.steps li:before{content:counter(step);width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:var(--blue3);color:#4a7b98;font-weight:800}.info-table{width:100%;border-collapse:collapse}.info-table th,.info-table td{padding:11px 6px;border-bottom:1px solid #e5f0f6;text-align:left;vertical-align:top}.info-table th{width:34%;color:#718696;font-weight:600}.badge{display:inline-block;padding:5px 9px;border-radius:999px;background:#eaf8ef;color:#4c7b5d;font-size:.78rem;font-weight:700}.changelog{display:grid;gap:12px}.change{display:grid;grid-template-columns:88px 1fr;gap:16px;padding:16px 18px;border-radius:16px;background:rgba(255,255,255,.74);border:1px solid #deedf5}.version{font-weight:800;color:#4e7f99}.note{margin-top:18px;padding:14px 16px;border-left:4px solid var(--blue2);background:#f7fcff;border-radius:10px;color:#647d8d;line-height:1.7}footer{margin-top:62px;text-align:center;color:#8799a6;font-size:.9rem}.footer-links{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin-bottom:10px}.footer-links a{text-decoration:none;color:#68869a}@media(max-width:820px){.hero{grid-template-columns:1fr;padding:30px 24px}.portrait-wrap img{max-height:360px}.cards{grid-template-columns:1fr}.install{grid-template-columns:1fr}.navlinks{display:none}.wrap{padding-top:30px}}
 </style>
 </head>
 <body>
-<header class="site-header">
-  <div class="nav">
-    <a class="brand" href="#top">白雪ゆうか</a>
-    <nav class="navlinks" aria-label="ページ内ナビゲーション">
-      <a href="#features">特徴</a><a href="#install">導入方法</a><a href="#update">更新</a><a href="#info">配布情報</a>
-    </nav>
-  </div>
-</header>
+<header class="site-header"><div class="nav"><a class="brand" href="#top">白雪ゆうか</a><nav class="navlinks" aria-label="ページ内ナビゲーション"><a href="#features">特徴</a><a href="#install">導入方法</a><a href="#update">更新</a><a href="#info">配布情報</a></nav></div></header>
 <main id="top" class="wrap">
-  <section class="hero">
-    <div class="portrait-wrap"><img src="thumbnail.png" alt="白雪ゆうか"></div>
-    <div>
-      <span class="eyebrow">❄ UKAGAKA / SSP GHOST</span>
-      <h1>白雪ゆうか</h1>
-      <p class="subtitle">Shirayuki Yuuka Official Distribution</p>
-      <p class="lead">白雪ゆうかと会話したり、さまざまなリアクションを楽しめる、SSP向けの伺かゴーストです。表情や気分の変化、設定メニュー、ネットワーク更新に対応しています。</p>
-      <div class="buttons">
-        <a class="btn primary" href="Shirayuki_Yuuka.nar">❄ NARをダウンロード</a>
-        <a class="btn secondary" href="x-ukagaka-link:type=install&url=https%3A%2F%2Fknn6hc6k9h-commits.github.io%2Fshirayuki-yuuka%2FShirayuki_Yuuka.nar">SSPへインストール</a>
-      </div>
-      <p class="mini">Current Version 0.5b ・ Windows / SSP向け</p>
-    </div>
-  </section>
-
-  <section id="features" class="section">
-    <div class="section-title"><h2>ゆうかちゃんの特徴</h2><p>デスクトップで、少しずつ関係が変わっていくゴースト。</p></div>
-    <div class="cards">
-      <article class="card"><div class="icon">💬</div><h3>会話</h3><p>ランダムトークや呼びかけへの反応など、ゆうかちゃんとの日常的な会話を楽しめます。</p></article>
-      <article class="card"><div class="icon">✨</div><h3>リアクション</h3><p>頭をなでるなど、場所や操作に応じた表情・反応を用意しています。</p></article>
-      <article class="card"><div class="icon">⚙️</div><h3>設定と状態変化</h3><p>設定メニューや内部状態に応じて反応が変化。設定内容は次回起動時にも引き継がれます。</p></article>
-    </div>
-  </section>
-
-  <section id="install" class="section">
-    <div class="section-title"><h2>インストール</h2><p>NAR形式なので、導入は簡単です。</p></div>
-    <div class="install">
-      <div class="panel">
-        <ol class="steps">
-          <li><div><strong>SSPを起動</strong><br><span style="color:#718696">伺か互換ベースウェア「SSP」を起動します。</span></div></li>
-          <li><div><strong>NARを入手</strong><br><span style="color:#718696">上の「NARをダウンロード」から <code>Shirayuki_Yuuka.nar</code> を保存します。</span></div></li>
-          <li><div><strong>SSPへドラッグ＆ドロップ</strong><br><span style="color:#718696">ダウンロードしたNARをSSPへドロップするとインストールされます。</span></div></li>
-        </ol>
-      </div>
-      <aside class="panel" id="info">
-        <table class="info-table">
-          <tr><th>ゴースト名</th><td>白雪ゆうか</td></tr>
-          <tr><th>Version</th><td>0.5b</td></tr>
-          <tr><th>形式</th><td>伺か / SSP Ghost</td></tr>
-          <tr><th>更新</th><td><span class="badge">ネットワーク更新対応</span></td></tr>
-          <tr><th>配布・管理</th><td>knn6hc6k9h-commits</td></tr>
-        </table>
-      </aside>
-    </div>
-  </section>
-
-  <section id="update" class="section">
-    <div class="section-title"><h2>ネットワーク更新</h2><p>インストール後のアップデートはSSPから取得できます。</p></div>
-    <div class="panel">
-      <p style="margin-top:0;line-height:1.8">SSPのゴーストメニューから「ネットワーク更新」を実行すると、配布ページに公開されている最新版との差分を確認して更新できます。</p>
-      <div class="note">更新中にエラーが出た場合は、少し時間をおいて再度お試しください。GitHub Pagesへの反映には数分かかることがあります。</div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="panel">
-      <p style="margin:0;text-align:center;font-weight:700">生成AIを使用しています。</p>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="section-title"><h2>更新履歴</h2><p>公開版の主な変更点。</p></div>
-    <div class="changelog">
-      <div class="change"><div class="version">Ver.0.5b</div><div>現在の公開ベータ版。会話・リアクション・状態変化・設定メニュー・ネットワーク更新に対応。</div></div>
-    </div>
-  </section>
-
-  <footer>
-    <div class="footer-links"><a href="Shirayuki_Yuuka.nar">NAR Download</a><a href="https://github.com/knn6hc6k9h-commits/shirayuki-yuuka">GitHub Repository</a></div>
-    <div>© 2026 白雪ゆうか / knn6hc6k9h-commits</div>
-  </footer>
+<section class="hero">
+<div class="portrait-wrap"><img src="thumbnail.png" alt="白雪ゆうか"></div>
+<div><span class="eyebrow">❄ UKAGAKA / SSP GHOST</span><h1>白雪ゆうか</h1><p class="subtitle">Shirayuki Yuuka Official Distribution</p><p class="lead">白雪ゆうかと会話したり、さまざまなリアクションを楽しめる、SSP向けの伺かゴーストです。表情や気分の変化、設定メニュー、ネットワーク更新に対応しています。</p><div class="buttons"><a class="btn primary" href="Shirayuki_Yuuka.nar">❄ NARをダウンロード</a><a class="btn secondary" href="x-ukagaka-link:type=install&url=https%3A%2F%2Fknn6hc6k9h-commits.github.io%2Fshirayuki-yuuka%2FShirayuki_Yuuka.nar">SSPへインストール</a><a class="btn secondary" href="https://ssp.shillest.net/" target="_blank" rel="noopener noreferrer">SSPをまだ持っていない方</a></div><p class="mini">Current Version 0.5b ・ Windows / SSP向け</p></div>
+</section>
+<section id="features" class="section"><div class="section-title"><h2>ゆうかちゃんの特徴</h2><p>デスクトップで、少しずつ関係が変わっていくゴースト。</p></div><div class="cards"><article class="card"><div class="icon">💬</div><h3>会話</h3><p>ランダムトークや呼びかけへの反応など、ゆうかちゃんとの日常的な会話を楽しめます。</p></article><article class="card"><div class="icon">✨</div><h3>リアクション</h3><p>頭をなでるなど、場所や操作に応じた表情・反応を用意しています。</p></article><article class="card"><div class="icon">⚙️</div><h3>設定と状態変化</h3><p>設定メニューや内部状態に応じて反応が変化。設定内容は次回起動時にも引き継がれます。</p></article></div></section>
+<section id="install" class="section">
+<div class="section-title"><h2>インストール</h2><p>SSPを初めて使う方も、ここから順番に導入できます。</p></div>
+<div class="ssp-callout"><h3>SSPをまだインストールしていない方へ</h3><p>白雪ゆうかを動かすには、伺か互換ベースウェア「SSP」が必要です。まずSSP公式配布サイトからSSPをダウンロードしてインストールしてください。SSPの準備ができたら、このページに戻って白雪ゆうかのNARを導入できます。</p><div class="buttons"><a class="btn primary" href="https://ssp.shillest.net/" target="_blank" rel="noopener noreferrer">SSP公式配布サイトを開く</a><a class="btn secondary" href="https://ssp.shillest.net/ukadoc/ssphelp/" target="_blank" rel="noopener noreferrer">SSPの使い方を見る</a></div></div>
+<div class="install"><div class="panel"><ol class="steps"><li><div><strong>SSPをインストールして起動</strong><br><span style="color:#718696">まだSSPがない場合は、上の「SSP公式配布サイトを開く」から入手してください。</span></div></li><li><div><strong>白雪ゆうかのNARを入手</strong><br><span style="color:#718696">「NARをダウンロード」から <code>Shirayuki_Yuuka.nar</code> を保存します。</span></div></li><li><div><strong>SSPへドラッグ＆ドロップ</strong><br><span style="color:#718696">ダウンロードしたNARを起動中のSSPへドロップすると、白雪ゆうかがインストールされます。</span></div></li></ol></div><aside class="panel" id="info"><table class="info-table"><tr><th>ゴースト名</th><td>白雪ゆうか</td></tr><tr><th>Version</th><td>0.5b</td></tr><tr><th>形式</th><td>伺か / SSP Ghost</td></tr><tr><th>必要環境</th><td>SSP</td></tr><tr><th>更新</th><td><span class="badge">ネットワーク更新対応</span></td></tr><tr><th>配布・管理</th><td>knn6hc6k9h-commits</td></tr></table></aside></div>
+</section>
+<section id="update" class="section"><div class="section-title"><h2>ネットワーク更新</h2><p>インストール後のアップデートはSSPから取得できます。</p></div><div class="panel"><p style="margin-top:0;line-height:1.8">SSPのゴーストメニューから「ネットワーク更新」を実行すると、配布ページに公開されている最新版との差分を確認して更新できます。</p><div class="note">更新中にエラーが出た場合は、少し時間をおいて再度お試しください。GitHub Pagesへの反映には数分かかることがあります。</div></div></section>
+<section class="section"><div class="panel"><p style="margin:0;text-align:center;font-weight:700">生成AIを使用しています。</p></div></section>
+<section class="section"><div class="section-title"><h2>更新履歴</h2><p>公開版の主な変更点。</p></div><div class="changelog"><div class="change"><div class="version">Ver.0.5b</div><div>現在の公開ベータ版。会話・リアクション・状態変化・設定メニュー・ネットワーク更新に対応。</div></div></div></section>
+<footer><div class="footer-links"><a href="Shirayuki_Yuuka.nar">NAR Download</a><a href="https://ssp.shillest.net/" target="_blank" rel="noopener noreferrer">SSP Official</a><a href="https://github.com/knn6hc6k9h-commits/shirayuki-yuuka">GitHub Repository</a></div><div>© 2026 白雪ゆうか / knn6hc6k9h-commits</div></footer>
 </main>
 </body>
 </html>
