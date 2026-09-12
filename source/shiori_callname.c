@@ -18,7 +18,7 @@ __declspec(dllexport) BOOL __cdecl load(HGLOBAL h,long len){
 }
 
 __declspec(dllexport) HGLOBAL __cdecl request(HGLOBAL h,long* lenp){
-  int inlen=(lenp?(int)*lenp:0),settings=0;HGLOBAL r,handled;
+  int inlen=(lenp?(int)*lenp:0);HGLOBAL r,handled;
   if(!g_base_request){if(h)GlobalFree(h);if(lenp)*lenp=0;return 0;}
   if(!h)return g_base_request(h,lenp);
 
@@ -28,9 +28,7 @@ __declspec(dllexport) HGLOBAL __cdecl request(HGLOBAL h,long* lenp){
   /* Changing the registered name invalidates the stored replacement base. */
   if(request_has_id((const char*)h,inlen,"OnYuukaSetName"))save_callname_record("","");
 
-  settings=request_has_id((const char*)h,inlen,"OnYuukaSettings");
   r=g_base_request(h,lenp);
-  if(settings)r=inject_callname_setting(r,lenp);
   return apply_callname(r,lenp);
 }
 
