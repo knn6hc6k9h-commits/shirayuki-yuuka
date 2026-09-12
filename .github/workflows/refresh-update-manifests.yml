@@ -1,0 +1,83 @@
+name: Refresh network update manifests
+
+on:
+  push:
+    paths:
+      - 'docs/update/ghost/**'
+      - 'docs/update/shell/**'
+      - 'docs/update/CUSTOMIZE_README.txt'
+      - 'docs/update/DIALOGUE_EDIT_GUIDE.txt'
+      - 'docs/update/readme.txt'
+      - 'docs/update/thumbnail.png'
+      - '.github/workflows/refresh-update-manifests.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Generate manifests from current distribution tree
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib
+
+          root = Path('docs/update')
+          sep = '\x01'
+          runtime_state = {
+              'ghost/master/yuuka_state.dat',
+              'ghost/master/yuuka_features.dat',
+          }
+
+          wanted = []
+          for fixed in ['CUSTOMIZE_README.txt', 'DIALOGUE_EDIT_GUIDE.txt', 'readme.txt', 'thumbnail.png']:
+              p = root / fixed
+              if p.is_file():
+                  wanted.append(p)
+          for dirname in ['ghost', 'shell']:
+              base = root / dirname
+              if base.exists():
+                  wanted.extend(p for p in base.rglob('*') if p.is_file())
+
+          records = []
+          for p in sorted(wanted, key=lambda x: x.relative_to(root).as_posix()):
+              rel = p.relative_to(root).as_posix()
+              if rel in runtime_state:
+                  continue
+              data = p.read_bytes()
+              md5 = hashlib.md5(data).hexdigest()
+              extra = f'{sep}charset=UTF-8' if rel == 'CUSTOMIZE_README.txt' else ''
+              records.append(f'{rel}{sep}{md5}{sep}size={len(data)}{extra}{sep}')
+
+          (root / 'updates2.dau').write_bytes(('\r\n'.join(records) + '\r\n').encode('utf-8'))
+          txt = ['charset,UTF-8'] + ['file,' + r for r in records]
+          (root / 'updates.txt').write_bytes(('\r\n'.join(txt) + '\r\n').encode('utf-8'))
+
+          print(f'Generated {len(records)} update records')
+          for r in records:
+              print(r.replace(sep, ' | '))
+          PY
+
+      - name: Commit refreshed manifests
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/update/updates2.dau docs/update/updates.txt
+          if git diff --cached --quiet; then
+            echo "Update manifests are already current."
+            exit 0
+          fi
+          git commit -m "Refresh network update manifests"
+          git pull --rebase origin main
+          git push origin main
