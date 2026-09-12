@@ -85,7 +85,7 @@ jobs:
           nar_shiori="$(unzip -p docs/Shirayuki_Yuuka.nar ghost/master/shiori.dll | md5sum | awk '{print $1}')"
           src_shiori="$(md5sum docs/update/ghost/master/shiori.dll | awk '{print $1}')"
           nar_core="$(unzip -p docs/Shirayuki_Yuuka.nar ghost/master/shiori_core.dll | md5sum | awk '{print $1}')"
-          src_core="$(md5sum docs/update/ghost/master/shiori_core.dll | md5sum | awk '{print $1}')"
+          src_core="$(md5sum docs/update/ghost/master/shiori_core.dll | awk '{print $1}')"
           test "$nar_shiori" = "$src_shiori"
           test "$nar_core" = "$src_core"
           echo "NAR shiori.dll MD5: $nar_shiori"
