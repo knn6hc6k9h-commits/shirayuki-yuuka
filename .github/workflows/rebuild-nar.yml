@@ -1,0 +1,82 @@
+name: Rebuild public NAR
+
+on:
+  push:
+    paths:
+      - 'docs/update/**'
+      - '.github/workflows/rebuild-nar.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Rebuild NAR from current update tree
+        shell: bash
+        run: |
+          set -euo pipefail
+          work="$(mktemp -d)"
+
+          # Keep install.txt and any harmless distribution-only files from the
+          # existing NAR, then replace the actual ghost/shell contents with the
+          # current network-update tree.
+          unzip -q docs/Shirayuki_Yuuka.nar -d "$work"
+
+          rm -rf "$work/ghost" "$work/shell"
+          cp -a docs/update/ghost "$work/ghost"
+          cp -a docs/update/shell "$work/shell"
+
+          cp docs/update/CUSTOMIZE_README.txt "$work/CUSTOMIZE_README.txt"
+          cp docs/update/DIALOGUE_EDIT_GUIDE.txt "$work/DIALOGUE_EDIT_GUIDE.txt"
+          cp docs/update/readme.txt "$work/readme.txt"
+          cp docs/update/thumbnail.png "$work/thumbnail.png"
+
+          # Runtime user state must never be bundled into a fresh install.
+          rm -f "$work/ghost/master/yuuka_state.dat"
+
+          test -f "$work/install.txt"
+
+          rm -f docs/Shirayuki_Yuuka.nar
+          (cd "$work" && zip -q -r "$GITHUB_WORKSPACE/docs/Shirayuki_Yuuka.nar" .)
+
+      - name: Verify bundled files are current
+        shell: bash
+        run: |
+          set -euo pipefail
+          nar_dialogue="$(unzip -p docs/Shirayuki_Yuuka.nar ghost/master/dialogue.txt | md5sum | awk '{print $1}')"
+          src_dialogue="$(md5sum docs/update/ghost/master/dialogue.txt | awk '{print $1}')"
+          nar_shiori="$(unzip -p docs/Shirayuki_Yuuka.nar ghost/master/shiori.dll | md5sum | awk '{print $1}')"
+          src_shiori="$(md5sum docs/update/ghost/master/shiori.dll | awk '{print $1}')"
+          nar_events="$(unzip -p docs/Shirayuki_Yuuka.nar ghost/master/user_events.txt | md5sum | awk '{print $1}')"
+          src_events="$(md5sum docs/update/ghost/master/user_events.txt | awk '{print $1}')"
+
+          test "$nar_dialogue" = "$src_dialogue"
+          test "$nar_shiori" = "$src_shiori"
+          test "$nar_events" = "$src_events"
+
+          if unzip -l docs/Shirayuki_Yuuka.nar | grep -q 'yuuka_state.dat'; then
+            echo 'ERROR: yuuka_state.dat was bundled into the NAR.' >&2
+            exit 1
+          fi
+
+          echo "dialogue.txt MD5: $nar_dialogue"
+          echo "shiori.dll MD5:   $nar_shiori"
+          echo "user_events MD5:  $nar_events"
+
+      - name: Commit rebuilt NAR
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/Shirayuki_Yuuka.nar
+          if git diff --cached --quiet; then
+            echo "NAR is already current."
+            exit 0
+          fi
+          git commit -m "Rebuild public NAR from current update tree"
+          git push
