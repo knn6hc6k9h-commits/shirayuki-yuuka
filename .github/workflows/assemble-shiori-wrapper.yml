@@ -3,7 +3,10 @@ name: Assemble SHIORI wrapper
 on:
   push:
     paths:
+      - 'source/shiori_wrapper.c'
       - 'source/shiori_wrapper.ready'
+      - '.github/workflows/assemble-shiori-wrapper.yml'
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -13,21 +16,62 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Assemble wrapper DLL
+        with:
+          fetch-depth: 0
+
+      - name: Install MinGW compiler
         shell: bash
         run: |
-          cat source/shiori_wrapper.b64.part00 source/shiori_wrapper.b64.part01 source/shiori_wrapper.b64.part02 source/shiori_wrapper.b64.part03 | base64 -d > docs/update/ghost/master/shiori.dll
-          test "$(stat -c%s docs/update/ghost/master/shiori.dll)" = "6976"
-          echo "c24ccc5547e650b51b16291db50ca962  docs/update/ghost/master/shiori.dll" | md5sum -c -
-      - name: Commit assembled DLL
+          sudo apt-get update
+          sudo apt-get install -y gcc-mingw-w64-i686
+
+      - name: Build wrapper DLL
+        shell: bash
+        run: |
+          i686-w64-mingw32-gcc -shared -Os -s -o docs/update/ghost/master/shiori.dll source/shiori_wrapper.c -Wl,--kill-at
+          file docs/update/ghost/master/shiori.dll
+          test -s docs/update/ghost/master/shiori.dll
+
+      - name: Refresh update manifests
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib
+
+          dll = Path('docs/update/ghost/master/shiori.dll')
+          digest = hashlib.md5(dll.read_bytes()).hexdigest()
+          size = dll.stat().st_size
+          sep = '\x01'
+
+          p = Path('docs/update/updates2.dau')
+          lines = p.read_text(encoding='utf-8').splitlines()
+          prefix = 'ghost/master/shiori.dll' + sep
+          replacement = f'ghost/master/shiori.dll{sep}{digest}{sep}size={size}{sep}'
+          lines = [replacement if line.startswith(prefix) else line for line in lines]
+          p.write_bytes(('\r\n'.join(lines) + '\r\n').encode('utf-8'))
+
+          p = Path('docs/update/updates.txt')
+          lines = p.read_text(encoding='utf-8').splitlines()
+          prefix = 'file,ghost/master/shiori.dll' + sep
+          replacement = f'file,ghost/master/shiori.dll{sep}{digest}{sep}size={size}{sep}'
+          lines = [replacement if line.startswith(prefix) else line for line in lines]
+          p.write_bytes(('\r\n'.join(lines) + '\r\n').encode('utf-8'))
+
+          print('shiori.dll MD5:', digest)
+          print('shiori.dll size:', size)
+          PY
+
+      - name: Commit built files
         shell: bash
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add docs/update/ghost/master/shiori.dll
+          git add docs/update/ghost/master/shiori.dll docs/update/updates2.dau docs/update/updates.txt
           if git diff --cached --quiet; then
-            echo "No binary change needed."
+            echo "No generated changes needed."
             exit 0
           fi
-          git commit -m "Assemble live dialogue reload SHIORI wrapper"
-          git push
+          git commit -m "Build live dialogue reload SHIORI wrapper"
+          git pull --rebase origin main
+          git push origin main
