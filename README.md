@@ -1,6 +1,6 @@
 # 白雪ゆうか 配布リポジトリ
 
-**Current Version: 0.5b**
+**Current Version: 1.0**
 
 配布ページ: https://knn6hc6k9h-commits.github.io/shirayuki-yuuka/
 
