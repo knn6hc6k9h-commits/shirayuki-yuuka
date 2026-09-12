@@ -11,9 +11,7 @@ static HGLOBAL callname_settings_menu(long* outlen){
   append_text(b,sizeof(b),&p,"\\q[「ちゃん」で呼ぶ,OnYuukaCallNameChan]\\n");
   append_text(b,sizeof(b),&p,"\\q[呼び捨てにする,OnYuukaCallNameNone]\\n");
   append_text(b,sizeof(b),&p,"\\q[自由な呼び名にする,OnYuukaCallNameCustom]\\n");
-  append_text(b,sizeof(b),&p,"\\q[標準（登録名＋さん）に戻す,OnYuukaCallNameDefault]\\n");
-  append_text(b,sizeof(b),&p,"\\q[登録している名前そのものを変更,OnYuukaSetName]\\n\\n");
-  append_text(b,sizeof(b),&p,"※登録名そのものを変更すると、呼び方はいったん標準の『名前＋さん』に戻ります。\\n\\n");
+  append_text(b,sizeof(b),&p,"\\q[標準（登録名＋さん）に戻す,OnYuukaCallNameDefault]\\n\\n");
   append_text(b,sizeof(b),&p,"\\q[メインメニューに戻る,MainMenu]\\e");
   return make_response(b,outlen);
 }
@@ -21,7 +19,7 @@ static HGLOBAL callname_settings_menu(long* outlen){
 static HGLOBAL base_name_prompt(const char* suffix_label,const char* input_event,long* outlen){
   char b[1600];int p=0;b[0]=0;
   append_text(b,sizeof(b),&p,"\\0\\s[1]");append_text(b,sizeof(b),&p,suffix_label);
-  append_text(b,sizeof(b),&p,"ですね♪\\n\\nまず、今ゆうかに登録しているお名前部分を入力してください。\\nたとえば『魁人さん』なら『魁人』と入力してください。\\n\\n\\![open,inputbox,");
+  append_text(b,sizeof(b),&p,"ですね♪\\n\\nまず、今ゆうかに登録しているお名前部分を入力してください。\\nたとえば『○○さん』なら『○○』と入力してください。\\n\\n\\![open,inputbox,");
   append_text(b,sizeof(b),&p,input_event);append_text(b,sizeof(b),&p,",--timeout=-1,--limit=20]\\e");
   return make_response(b,outlen);
 }
