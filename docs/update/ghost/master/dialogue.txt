@@ -37,7 +37,7 @@ EVENT|BootMorningClose|\0\s[1]いってらっしゃい、{name}さん♪\w5今�
 EVENT|BootDay|\0\s[1]こんにちは、{name}さん。\w5来てくれたんですね♪\w5……今日も会えて嬉しいです。\e
 EVENT|BootDayClose|\0\s[1]いってらっしゃい、{name}さん\w5また会いに来てくださいね。\w5楽しみに待ってます♪\e
 EVENT|BootEvening|\0\s[1]こんばんは、{name}さん。\w5今日も一日、お疲れさまでした♪\w5会えてちょっと安心しました。\e
-EVENT|BootEveningClose|\0\s[0]そろそろおしまいですか？\w5……ちょっと寂しいですけど、仕方ないですよね。\w5また会いに来てくれたら嬉しいです♪\e
+EVENT|BootEveningClose|\0\s[2]そろそろおしまいですか？\w5……ちょっと寂しいですけど、仕方ないですよね。\w5また会いに来てくれたら嬉しいです♪\e
 EVENT|BootNight|\0\s[3]わっ、もうこんな時間ですよ、{name}さん。\w5\s[0]まだ起きてたんですね。\w5夜ふかししすぎたら駄目ですよ？\w5……私、心配になっちゃいますから。\e
 EVENT|Close|\0\s[1]もうおしまいなんですね。\w5今日も一緒にいてくれてありがとうございました♪\w5また会いに来てくださいね。\w2\-
 
@@ -148,7 +148,7 @@ EVENT|OnYuukaSkirtWheelUp|\0\s[5]ま、待ってくださいっ……！\w5\s[4]
 EVENT|OnYuukaSkirtWheelUp|\0\s[5]きゃっ！ そんなふうにスカートへ触られると恥ずかしいです……！\e
 
 # 20%のレア反応。surface7 -> surface9 -> surface6 の順。
-EVENT|OnYuukaSkirtActualFlip|\0\s[7]えっ……？\w6 ま、待ってくださ――\w7\s[9]きゃあああっ！？\w9\w9\s[6]……うぅ……。\w7 ううっ…\w9\w9\sぐすっ…。\e
+EVENT|OnYuukaSkirtActualFlip|\0\s[7]えっ……？\w6 ま、待ってくださ――\w7\s[9]きゃあああっ！？\w9\w9\s[6]……うぅ……。\w7 ううっ…\w9\w9ぐすっ…。\e
 EVENT|OnYuukaSkirtActualFlip|\0\s[7]ひゃっ……！\w6 え、ちょっと――\w7\s[9]きゃあっ！？\w9\w9\s[6]……今のは本当にびっくりしました……。\w7 もう、やめてください……。\e
 EVENT|OnYuukaSkirtActualFlip|\0\s[7]え、ええっ！？\w6 だ、駄目――\w7\s[9]きゃああっ！\w9\w9\s[6]……うぅ……。\w6 ぐすっ……。\e
 
@@ -222,7 +222,7 @@ EVENT|OnYuukaThighTouch|\0\s[5]ひゃっ……！ そこはくすぐったいで
 EVENT|OnYuukaThighTouch|\0\s[5]……太ももに触らないでください……。\e
 
 EVENT|OnYuukaThighStroke|\0\s[5]あ、あの……そんなにずっとなでなでされると、ちょっと……。\e
-EVENT|OnYuukaThighStroke|\0\s[5]んっ……そこ、くすぐったいです……っ。\e
+EVENT|OnYuukaThighStroke|\0\s[2]んっ……そこ、くすぐったいです……っ。\e
 
 
 # ============================================================
