@@ -1,13 +1,13 @@
 /*
  * Feature 6 + 12 layer:
  * - detailed time-of-day boot greetings
- * - one-time greeting after a network update
+ * - greeting when a network update completes
  *
- * The update greeting is keyed by ghost/master/release.txt and stored in the
- * private yuuka_features.dat state at offset 60. A fresh install records the
- * current release silently, while an existing install greets once after the
- * release marker changes. OnUpdateComplete is preferred, with OnBoot as a
- * fallback for updates that replace the currently-loaded SHIORI DLL.
+ * OnUpdateComplete always shows the update greeting.  The release marker in
+ * ghost/master/release.txt is stored in private yuuka_features.dat at offset
+ * 60 and is used only as an OnBoot fallback when a just-replaced SHIORI DLL
+ * could not answer the completion event.  A fresh install records the current
+ * release silently so installation itself is not mistaken for an update.
  */
 #define request yuuka_request_before_time_greetings
 #include "shiori_wrapper.c"
@@ -73,8 +73,10 @@ static HGLOBAL yuuka_update_greeting(HGLOBAL h,long* lenp,unsigned long marker){
   r=core_event("OnYuukaFeatureUpdated",&rn);
   if(!r)return 0;
 
-  p32(g_feature+60,marker);
-  save_feature_data();
+  if(marker){
+    p32(g_feature+60,marker);
+    save_feature_data();
+  }
   GlobalFree(h);
   if(lenp)*lenp=rn;
   return r;
@@ -92,12 +94,18 @@ __declspec(dllexport) HGLOBAL __cdecl request(HGLOBAL h,long* lenp){
     return yuuka_request_before_time_greetings(h,lenp);
 
   /*
-   * Feature 12 gets the highest priority at the end of a real network update.
-   * If this release replaced the loaded DLL, the next OnBoot is the fallback.
+   * A completed network update should always get a completion line.
+   * release.txt is only used to recover that greeting on the next OnBoot when
+   * the update replaced the currently-loaded SHIORI before it could respond.
    */
-  if(yuuka_pending_update(&release_marker)&&
-     (request_has_id((const char*)h,inlen,"OnUpdateComplete")||
-      request_has_id((const char*)h,inlen,"OnBoot"))){
+  if(request_has_id((const char*)h,inlen,"OnUpdateComplete")){
+    release_marker=yuuka_release_marker();
+    r=yuuka_update_greeting(h,lenp,release_marker);
+    if(r)return r;
+  }
+
+  if(request_has_id((const char*)h,inlen,"OnBoot")&&
+     yuuka_pending_update(&release_marker)){
     r=yuuka_update_greeting(h,lenp,release_marker);
     if(r)return r;
   }
