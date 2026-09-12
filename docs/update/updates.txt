@@ -3,7 +3,7 @@ file,CUSTOMIZE_README.txt28ed48a7b56a68d3e77718d85d4a219csize=1231charset=UTF
 file,DIALOGUE_EDIT_GUIDE.txt4a606200aa41392c828c4d36abf84e58size=6146
 file,ghost/master/descript.txt5597cd2c15f06fab0cc8a177f1513201size=402
 file,ghost/master/dialogue.txtfd0869f646b7bac118644f890e4097d0size=29115
-file,ghost/master/release.txt1698e642122617d2ce022815e74a6ee1size=12
+file,ghost/master/release.txt80296eae8c0af764a69240b36504f1d2size=12
 file,ghost/master/shiori.dllced2bf950a633709bb402836d3034909size=22016
 file,ghost/master/shiori_core.dll2bcfa84bc4d2013ec8e08774260a7b06size=47973
 file,ghost/master/thumbnail.pnge33cef779e343de967adc078681b4fafsize=82734
