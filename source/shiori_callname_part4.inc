@@ -9,25 +9,25 @@
 static HGLOBAL custom_base_input(const char* req,int n,long* outlen){
   char raw[160];raw[0]=0;g_pending_base[0]=0;get_header_value(req,n,"Reference0:",raw,(int)sizeof(raw));
   if(!clean_input(raw,g_pending_base,(int)sizeof(g_pending_base)))
-    return make_response("\\0\\s[2]お名前をうまく読み取れませんでした……。\\n\\q[呼び方の設定に戻る,OnYuukaCallNameSettings]\\e",outlen);
+    return make_response("\\0\\s[2]お名前をうまく読み取れませんでした……。\\n\\q[呼び方を決める画面に戻る,OnYuukaCallNameSettings]\\e",outlen);
   return make_response("\\0\\s[1]はいっ。\\w5では次に、私に呼んでほしい呼び方をそのまま入力してください♪\\n『先輩』『先生』『魁人先輩』みたいな呼び方でも大丈夫です。\\n\\n\\![open,inputbox,OnYuukaCallNameCustomInput,--timeout=-1,--limit=30]\\e",outlen);
 }
 
 static HGLOBAL custom_call_input(const char* req,int n,long* outlen){
   char raw[220],call[CALL_NAME_MAX+1];raw[0]=call[0]=0;
-  if(!g_pending_base[0])return make_response("\\0\\s[2]ご、ごめんなさい……最初のお名前が分からなくなっちゃいました。\\nもう一度、最初から設定してください。\\n\\q[呼び方の設定に戻る,OnYuukaCallNameSettings]\\e",outlen);
+  if(!g_pending_base[0])return make_response("\\0\\s[2]ご、ごめんなさい……最初のお名前が分からなくなっちゃいました。\\nもう一度、最初から設定してください。\\n\\q[呼び方を決める画面に戻る,OnYuukaCallNameSettings]\\e",outlen);
   get_header_value(req,n,"Reference0:",raw,(int)sizeof(raw));
   if(!clean_input(raw,call,(int)sizeof(call)))
-    return make_response("\\0\\s[2]呼び方をうまく読み取れませんでした……。\\n\\q[呼び方の設定に戻る,OnYuukaCallNameSettings]\\e",outlen);
+    return make_response("\\0\\s[2]呼び方をうまく読み取れませんでした……。\\n\\q[呼び方を決める画面に戻る,OnYuukaCallNameSettings]\\e",outlen);
   if(!save_callname_record(g_pending_base,call))
-    return make_response("\\0\\s[2]ご、ごめんなさい……呼び方を保存できませんでした。\\n\\q[呼び方の設定に戻る,OnYuukaCallNameSettings]\\e",outlen);
+    return make_response("\\0\\s[2]ご、ごめんなさい……呼び方を保存できませんでした。\\n\\q[呼び方を決める画面に戻る,OnYuukaCallNameSettings]\\e",outlen);
   g_pending_base[0]=0;return callname_saved_response(outlen);
 }
 
 static HGLOBAL default_callname_response(long* outlen){
   if(!reset_callname_to_default())
-    return make_response("\\0\\s[2]ご、ごめんなさい……設定を保存できませんでした。\\n\\q[呼び方の設定に戻る,OnYuukaCallNameSettings]\\e",outlen);
-  return make_response("\\0\\s[1]はいっ♪\\w5呼び方を標準の『登録名＋さん』に戻しました。\\w5また変えたくなったらいつでも言ってくださいね。\\n\\q[設定に戻る,OnYuukaSettings]\\e",outlen);
+    return make_response("\\0\\s[2]ご、ごめんなさい……設定を保存できませんでした。\\n\\q[呼び方を決める画面に戻る,OnYuukaCallNameSettings]\\e",outlen);
+  return make_response("\\0\\s[1]はいっ♪\\w5呼び方を標準の『登録名＋さん』に戻しました。\\w5また変えたくなったら『呼び方を決める』からいつでも変えられますよ。\\n\\q[呼び方をもう一度決める,OnYuukaCallNameSettings]\\n\\q[メインメニューに戻る,MainMenu]\\e",outlen);
 }
 
 static HGLOBAL handle_callname_event(HGLOBAL h,long* lenp,int inlen){
