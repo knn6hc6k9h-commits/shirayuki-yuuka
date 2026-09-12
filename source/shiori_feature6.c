@@ -120,30 +120,84 @@ static void yuuka_append_random_talk_interval(char* b,int cap,int* p,unsigned lo
   }
 }
 
-static HGLOBAL yuuka_settings_menu(long* outlen){
+static int yuuka_contains_ascii(const char* s,long n,const char* needle){
+  int i,j,k=slen(needle);
+  if(!s||n<=0||k<=0)return 0;
+  for(i=0;i+k<=n;++i){
+    for(j=0;j<k&&s[i+j]==needle[j];++j){}
+    if(j==k)return 1;
+  }
+  return 0;
+}
+
+static HGLOBAL yuuka_main_menu(int mood,long* outlen){
   char b[1800];
   int p=0;
-  unsigned long m=u32(g_feature+36),d=u32(g_feature+40),seconds=yuuka_read_random_talk_seconds();
+  b[0]=0;
+
+  if(mood==2)append_text(b,sizeof(b),&p,"\\0\\s[4]……何ですか？\\n\\n");
+  else if(mood==1)append_text(b,sizeof(b),&p,"\\0\\s[0]……どうしましたか？\\n\\n");
+  else append_text(b,sizeof(b),&p,"\\0\\s[1]はいっ、どうしましたか？\\n\\n");
+
+  append_text(b,sizeof(b),&p,"\\q[お話しする,OnYuukaTalk]\\n");
+  append_text(b,sizeof(b),&p,"\\q[ゆうかに話しかける,OnYuukaSpeak]\\n");
+  append_text(b,sizeof(b),&p,"\\q[今の気持ちを聞く,OnYuukaAffection]\\n");
+  append_text(b,sizeof(b),&p,"\\q[設定,OnYuukaSettings]\\n");
+  append_text(b,sizeof(b),&p,"\\q[感想を送る（Web拍手）,OnYuukaFeedback]\\n");
+  append_text(b,sizeof(b),&p,"\\q[閉じる,script:\\e]\\*\\e");
+  return make_response(b,outlen);
+}
+
+static HGLOBAL yuuka_settings_menu(long* outlen){
+  char b[1600];
+  int p=0;
   b[0]=0;
 
   append_text(b,sizeof(b),&p,"\\0\\s[1]設定ですね♪\\n\\n");
-  append_text(b,sizeof(b),&p,"\\q[今日のゆうかの状態,OnYuukaTodayCondition]\\n\\n");
-  append_text(b,sizeof(b),&p,"ランダムトーク：現在 ");
-  yuuka_append_random_talk_interval(b,sizeof(b),&p,seconds);
-  append_text(b,sizeof(b),&p,"\\n\\q[ランダムトークの頻度を変更,OnYuukaRandomTalkSettings]\\n\\n");
+  append_text(b,sizeof(b),&p,"\\q[呼び方を決める,OnYuukaCallNameSettings]\\n");
+  append_text(b,sizeof(b),&p,"\\q[ランダムトークの頻度を変更,OnYuukaRandomTalkSettings]\\n");
+  append_text(b,sizeof(b),&p,"\\q[誕生日を変更,OnYuukaBirthdaySettings]\\n");
+  append_text(b,sizeof(b),&p,"\\q[その他設定,OnYuukaOriginalSettings]\\n");
+  append_text(b,sizeof(b),&p,"\\q[戻る,MainMenu]\\e");
+  return make_response(b,outlen);
+}
 
+static HGLOBAL yuuka_birthday_settings_menu(long* outlen){
+  char b[1400];
+  int p=0;
+  unsigned long m=u32(g_feature+36),d=u32(g_feature+40);
+  b[0]=0;
+
+  append_text(b,sizeof(b),&p,"\\0\\s[1]誕生日の設定ですね♪\\n\\n現在：");
   if(valid_birthday((int)m,(int)d)){
-    append_text(b,sizeof(b),&p,"登録されている誕生日：");
     append_uint(b,sizeof(b),&p,m);
     append_text(b,sizeof(b),&p,"月");
     append_uint(b,sizeof(b),&p,d);
-    append_text(b,sizeof(b),&p,"日\\n\\n");
-    append_text(b,sizeof(b),&p,"\\q[誕生日を変更,OnYuukaFeatureBirthdayPrompt]\\n\\q[誕生日の登録を消す,OnYuukaBirthdayClear]\\n");
+    append_text(b,sizeof(b),&p,"日");
   }else{
-    append_text(b,sizeof(b),&p,"誕生日はまだ登録されていません。\\n\\n\\q[誕生日を登録,OnYuukaFeatureBirthdayPrompt]\\n");
+    append_text(b,sizeof(b),&p,"未登録");
+  }
+  append_text(b,sizeof(b),&p,"\\n\\n\\q[誕生日を変更,OnYuukaFeatureBirthdayPrompt]\\n");
+  append_text(b,sizeof(b),&p,"\\q[設定に戻る,OnYuukaSettings]\\e");
+  return make_response(b,outlen);
+}
+
+static HGLOBAL yuuka_other_settings_menu(long* outlen){
+  char b[1200];
+  int p=0,paused=0;
+  long rn=0;
+  HGLOBAL current=core_event("OnYuukaSettings",&rn);
+
+  if(current){
+    paused=yuuka_contains_ascii((const char*)current,rn,"OFF");
+    GlobalFree(current);
   }
 
-  append_text(b,sizeof(b),&p,"\\q[その他の設定,OnYuukaOriginalSettings]\\n\\q[戻る,MainMenu]\\e");
+  b[0]=0;
+  append_text(b,sizeof(b),&p,"\\0\\s[1]その他設定です。\\n\\n");
+  if(paused)append_text(b,sizeof(b),&p,"\\q[カウント増加を再開,OnYuukaToggleHarassmentCount]\\n\\n");
+  else append_text(b,sizeof(b),&p,"\\q[カウント増加を停止,OnYuukaToggleHarassmentCount]\\n\\n");
+  append_text(b,sizeof(b),&p,"\\q[設定に戻る,OnYuukaSettings]\\e");
   return make_response(b,outlen);
 }
 
@@ -261,11 +315,40 @@ __declspec(dllexport) HGLOBAL __cdecl request(HGLOBAL h,long* lenp){
   if(!h)
     return yuuka_request_before_time_greetings(h,lenp);
 
-  /* Add the random-talk controls to Yuuka's normal settings menu. */
+  /* Keep the visible menus small and predictable. */
+  if(request_has_id((const char*)h,inlen,"MainMenu")){
+    r=yuuka_main_menu(0,&rn);
+    if(r){GlobalFree(h);if(lenp)*lenp=rn;return r;}
+  }
+  if(request_has_id((const char*)h,inlen,"MainMenuGrumpy")){
+    r=yuuka_main_menu(1,&rn);
+    if(r){GlobalFree(h);if(lenp)*lenp=rn;return r;}
+  }
+  if(request_has_id((const char*)h,inlen,"MainMenuAngry")){
+    r=yuuka_main_menu(2,&rn);
+    if(r){GlobalFree(h);if(lenp)*lenp=rn;return r;}
+  }
   if(request_has_id((const char*)h,inlen,"OnYuukaSettings")){
     force_reload();
     r=yuuka_settings_menu(&rn);
     if(r){GlobalFree(h);if(lenp)*lenp=rn;return r;}
+  }
+  if(request_has_id((const char*)h,inlen,"OnYuukaBirthdaySettings")){
+    r=yuuka_birthday_settings_menu(&rn);
+    if(r){GlobalFree(h);if(lenp)*lenp=rn;return r;}
+  }
+  if(request_has_id((const char*)h,inlen,"OnYuukaOriginalSettings")){
+    r=yuuka_other_settings_menu(&rn);
+    if(r){GlobalFree(h);if(lenp)*lenp=rn;return r;}
+  }
+  if(request_has_id((const char*)h,inlen,"OnYuukaToggleHarassmentCount")){
+    long base_len=inlen;
+    HGLOBAL base_response=yuuka_request_before_time_greetings(h,&base_len);
+    if(base_response)GlobalFree(base_response);
+    r=yuuka_other_settings_menu(&rn);
+    if(r){if(lenp)*lenp=rn;return r;}
+    if(lenp)*lenp=0;
+    return 0;
   }
   if(request_has_id((const char*)h,inlen,"OnYuukaRandomTalkSettings")){
     r=yuuka_random_talk_settings_menu(&rn);
