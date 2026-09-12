@@ -8,6 +8,9 @@ eye_move_threshold=65
 mouth_move_threshold=65
 # 太ももの「なでなで」感度（大きいほど反応しにくい）
 thigh_move_threshold=100
+
+# ランダムトークの間隔（秒）。
+# ゆうかのメニュー → 設定 →「ランダムトークの頻度を変更」からも変更できます。
 random_talk_seconds=120
 
 # スカート上方向ホイールの感度（大きいほど反応しにくい）
