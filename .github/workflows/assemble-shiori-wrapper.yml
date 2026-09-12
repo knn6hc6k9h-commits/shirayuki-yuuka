@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'source/shiori_wrapper.c'
+      - 'source/shiori_feature6.c'
       - 'source/shiori_wrapper.ready'
       - '.github/workflows/assemble-shiori-wrapper.yml'
   workflow_dispatch:
@@ -28,7 +29,7 @@ jobs:
       - name: Build wrapper DLL
         shell: bash
         run: |
-          i686-w64-mingw32-gcc -shared -Os -s -o docs/update/ghost/master/shiori.dll source/shiori_wrapper.c -Wl,--kill-at
+          i686-w64-mingw32-gcc -shared -Os -s -o docs/update/ghost/master/shiori.dll source/shiori_feature6.c -Wl,--kill-at
           file docs/update/ghost/master/shiori.dll
           test -s docs/update/ghost/master/shiori.dll
 
