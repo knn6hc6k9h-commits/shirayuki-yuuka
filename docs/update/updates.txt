@@ -1,13 +1,14 @@
 charset,UTF-8
-file,CUSTOMIZE_README.txt28ed48a7b56a68d3e77718d85d4a219csize=1231
+file,CUSTOMIZE_README.txt28ed48a7b56a68d3e77718d85d4a219csize=1231charset=UTF-8
 file,DIALOGUE_EDIT_GUIDE.txt4a606200aa41392c828c4d36abf84e58size=6146
 file,ghost/master/descript.txt5597cd2c15f06fab0cc8a177f1513201size=402
 file,ghost/master/dialogue.txtfd0869f646b7bac118644f890e4097d0size=29115
+file,ghost/master/release.txt15c2800e949f04b1b5842bf040dd0f83size=12
 file,ghost/master/shiori.dll858ab9c81b7679a00d770b216b585b4dsize=21504
 file,ghost/master/shiori_core.dll2bcfa84bc4d2013ec8e08774260a7b06size=47973
 file,ghost/master/thumbnail.pnge33cef779e343de967adc078681b4fafsize=82734
 file,ghost/master/user_config.txta8c00938fed04152dbce8e5e08acf459size=930
-file,ghost/master/user_events.txta87b2614df9f9685559bbc20b9503805size=2523
+file,ghost/master/user_events.txtdfce039fbf6ecd5245b360909685ef95size=9919
 file,readme.txt0ebe51d9e60312e337d713e4d8d4b7e8size=3256
 file,shell/master/descript.txt45a4a15674dc5b2e5e3fbdb9e2ee6326size=234
 file,shell/master/readme.txt6e8c0d2480274acdc868b7dbddd33704size=225
