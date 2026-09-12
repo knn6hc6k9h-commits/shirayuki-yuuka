@@ -62,12 +62,40 @@ jobs:
           print('shiori.dll size:', size)
           PY
 
+      - name: Rebuild public NAR
+        shell: bash
+        run: |
+          set -euo pipefail
+          work="$(mktemp -d)"
+          unzip -q docs/Shirayuki_Yuuka.nar -d "$work"
+          rm -rf "$work/ghost" "$work/shell"
+          cp -a docs/update/ghost "$work/ghost"
+          cp -a docs/update/shell "$work/shell"
+          cp docs/update/CUSTOMIZE_README.txt "$work/CUSTOMIZE_README.txt"
+          cp docs/update/DIALOGUE_EDIT_GUIDE.txt "$work/DIALOGUE_EDIT_GUIDE.txt"
+          cp docs/update/readme.txt "$work/readme.txt"
+          cp docs/update/thumbnail.png "$work/thumbnail.png"
+          rm -f "$work/ghost/master/yuuka_state.dat" "$work/ghost/master/yuuka_features.dat"
+          test -f "$work/install.txt"
+          rm -f docs/Shirayuki_Yuuka.nar
+          (cd "$work" && zip -q -r "$GITHUB_WORKSPACE/docs/Shirayuki_Yuuka.nar" .)
+
+          nar_shiori="$(unzip -p docs/Shirayuki_Yuuka.nar ghost/master/shiori.dll | md5sum | awk '{print $1}')"
+          src_shiori="$(md5sum docs/update/ghost/master/shiori.dll | awk '{print $1}')"
+          nar_core="$(unzip -p docs/Shirayuki_Yuuka.nar ghost/master/shiori_core.dll | md5sum | awk '{print $1}')"
+          src_core="$(md5sum docs/update/ghost/master/shiori_core.dll | awk '{print $1}')"
+          test "$nar_shiori" = "$src_shiori"
+          test "$nar_core" = "$src_core"
+          echo "NAR shiori.dll MD5: $nar_shiori"
+          echo "NAR shiori_core.dll MD5: $nar_core"
+
       - name: Commit built files
         shell: bash
         run: |
+          set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add docs/update/ghost/master/shiori.dll docs/update/updates2.dau docs/update/updates.txt
+          git add docs/update/ghost/master/shiori.dll docs/update/updates2.dau docs/update/updates.txt docs/Shirayuki_Yuuka.nar
           if git diff --cached --quiet; then
             echo "No generated changes needed."
             exit 0
