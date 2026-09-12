@@ -1,0 +1,24 @@
+# 白雪ゆうか メニュー項目名設定
+# 「=」の右側だけを書き換えると、メニューに表示される名前を変更できます。
+# 例: main_talk=ゆうかとおしゃべり
+#
+# 注意:
+# ・キー名（= の左側）は変更しないでください。
+# ・半角の \  ,  [  ] は項目名に使用しないでください。
+# ・保存後、次にメニューを開いたときから反映されます。
+# ・このファイルはネットワーク更新では上書きしない設定ファイルです。
+
+# メインメニュー
+main_talk=お話しする
+main_speak=ゆうかに話しかける
+main_affection=今の気持ちを聞く
+main_settings=設定
+main_feedback=感想を送る（Web拍手）
+main_close=閉じる
+
+# 設定メニュー
+settings_callname=呼び方を決める
+settings_randomtalk=ランダムトークの頻度を変更
+settings_birthday=誕生日を変更
+settings_other=その他設定
+settings_back=戻る
