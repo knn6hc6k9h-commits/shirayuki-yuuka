@@ -37,6 +37,7 @@ jobs:
 
           # Runtime user state must never be bundled into a fresh install.
           rm -f "$work/ghost/master/yuuka_state.dat"
+          rm -f "$work/ghost/master/yuuka_features.dat"
 
           test -f "$work/install.txt"
 
@@ -53,19 +54,25 @@ jobs:
           src_shiori="$(md5sum docs/update/ghost/master/shiori.dll | awk '{print $1}')"
           nar_events="$(unzip -p docs/Shirayuki_Yuuka.nar ghost/master/user_events.txt | md5sum | awk '{print $1}')"
           src_events="$(md5sum docs/update/ghost/master/user_events.txt | awk '{print $1}')"
+          nar_release="$(unzip -p docs/Shirayuki_Yuuka.nar ghost/master/release.txt | md5sum | awk '{print $1}')"
+          src_release="$(md5sum docs/update/ghost/master/release.txt | awk '{print $1}')"
 
           test "$nar_dialogue" = "$src_dialogue"
           test "$nar_shiori" = "$src_shiori"
           test "$nar_events" = "$src_events"
+          test "$nar_release" = "$src_release"
 
-          if unzip -l docs/Shirayuki_Yuuka.nar | grep -q 'yuuka_state.dat'; then
-            echo 'ERROR: yuuka_state.dat was bundled into the NAR.' >&2
-            exit 1
-          fi
+          for state in yuuka_state.dat yuuka_features.dat; do
+            if unzip -l docs/Shirayuki_Yuuka.nar | grep -q "$state"; then
+              echo "ERROR: $state was bundled into the NAR." >&2
+              exit 1
+            fi
+          done
 
           echo "dialogue.txt MD5: $nar_dialogue"
           echo "shiori.dll MD5:   $nar_shiori"
           echo "user_events MD5:  $nar_events"
+          echo "release.txt MD5:  $nar_release"
 
       - name: Commit rebuilt NAR
         shell: bash
