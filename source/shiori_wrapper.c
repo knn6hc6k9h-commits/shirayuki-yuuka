@@ -55,7 +55,7 @@ static void build_path(char* out,int cap,const char* dir,const char* file){
 }
 static void build_core_path(char* out,int cap,const char* dir){build_path(out,cap,dir,"shiori_core.dll");}
 
-static void init_feature(void){int i;for(i=0;i<48;++i)g_feature[i]=0;g_feature[0]='Y';g_feature[1]='U';g_feature[2]='K';g_feature[3]='F';p32(g_feature+4,2);g_has_last_seen=0;}
+static void init_feature(void){int i;for(i=0;i<48;++i)g_feature[i]=0;g_feature[0]='Y';g_feature[1]='U';g_feature[2]='K';g_feature[3]='F';p32(g_feature+4,3);g_has_last_seen=0;}
 static void load_feature(void){
   char path[1200];HANDLE f;DWORD got=0;int i;
   init_feature();build_path(path,(int)sizeof(path),g_dir,"yuuka_features.dat");
@@ -67,12 +67,16 @@ static void load_feature(void){
   if(!u32(g_feature+4))p32(g_feature+4,1);
   g_has_last_seen=(u32(g_feature+8)>=2000&&u32(g_feature+12)>=1&&u32(g_feature+12)<=12&&u32(g_feature+16)>=1&&u32(g_feature+16)<=31);
 }
-static void save_last_seen(void){
-  char path[1200];HANDLE f;DWORD wrote=0;SYSTEMTIME s;
-  GetLocalTime(&s);p32(g_feature+4,2);p32(g_feature+8,s.wYear);p32(g_feature+12,s.wMonth);p32(g_feature+16,s.wDay);p32(g_feature+20,s.wHour);p32(g_feature+24,s.wMinute);p32(g_feature+28,s.wSecond);g_has_last_seen=1;
-  build_path(path,(int)sizeof(path),g_dir,"yuuka_features.dat");
+static void save_feature_data(void){
+  char path[1200];HANDLE f;DWORD wrote=0;
+  p32(g_feature+4,3);build_path(path,(int)sizeof(path),g_dir,"yuuka_features.dat");
   f=CreateFileA(path,GENERIC_WRITE,0,0,CREATE_ALWAYS,FILE_ATTRIBUTE_NORMAL,0);
   if(f==INVALID_HANDLE_VALUE)return;WriteFile(f,g_feature,48,&wrote,0);CloseHandle(f);
+}
+static void save_last_seen(void){
+  SYSTEMTIME s;
+  GetLocalTime(&s);p32(g_feature+8,s.wYear);p32(g_feature+12,s.wMonth);p32(g_feature+16,s.wDay);p32(g_feature+20,s.wHour);p32(g_feature+24,s.wMinute);p32(g_feature+28,s.wSecond);g_has_last_seen=1;
+  save_feature_data();
 }
 static int leap(unsigned long y){return (y%4==0&&y%100!=0)||y%400==0;}
 static unsigned long daystamp(unsigned long y,unsigned long m,unsigned long d){
@@ -121,6 +125,20 @@ static HGLOBAL core_event(const char* id,long* outlen){
   r=g_request(h,&rn);if(outlen)*outlen=rn;return r;
 }
 
+static int last_number(const char* p,long n){
+  long i=0;int found=-1;
+  while(p&&i<n){
+    if(p[i]>='0'&&p[i]<='9'){
+      int v=0;while(i<n&&p[i]>='0'&&p[i]<='9'){v=v*10+(p[i]-'0');++i;}found=v;
+    }else ++i;
+  }
+  return found;
+}
+static int query_affection(void){
+  long rn=0;HGLOBAL r=core_event("OnYuukaAffection",&rn);int v=-1;
+  if(r){v=last_number((const char*)r,rn);GlobalFree(r);}return v;
+}
+
 __declspec(dllexport) BOOL __cdecl load(HGLOBAL h,long len){
   char path[1200]; char* p=(char*)h; int i=0,n=(int)len;
   if(n<0)n=0; while(p&&i<n&&i<1023&&p[i]){g_dir[i]=p[i];++i;} g_dir[i]=0;
@@ -137,9 +155,10 @@ __declspec(dllexport) BOOL __cdecl load(HGLOBAL h,long len){
 static void force_reload(void){long rn=0;HGLOBAL r=core_event("OnYuukaReloadEvents",&rn);if(r)GlobalFree(r);}
 
 __declspec(dllexport) HGLOBAL __cdecl request(HGLOBAL h,long* lenp){
-  int inlen=(lenp?(int)*lenp:0);const char* event=0;unsigned long secs;HGLOBAL r;long rn=0;
+  int inlen=(lenp?(int)*lenp:0);const char* event=0;unsigned long secs,count,slot;int affection;HGLOBAL r;long rn=0;
   if(!g_request){if(h)GlobalFree(h);if(lenp)*lenp=0;return 0;}
   force_reload();
+
   if(h&&request_has_id((const char*)h,inlen,"OnBoot")&&g_has_last_seen){
     secs=away_seconds();
     if(secs<=60ul){
@@ -153,6 +172,25 @@ __declspec(dllexport) HGLOBAL __cdecl request(HGLOBAL h,long* lenp){
     else if(secs>=3600ul)event="OnYuukaFeatureReturnShort";
     if(event){r=core_event(event,&rn);if(r){GlobalFree(h);if(lenp)*lenp=rn;return r;}}
   }
+
+  if(h&&request_has_id((const char*)h,inlen,"OnYuukaTalk")){
+    affection=query_affection();
+    if(affection>=20){
+      count=u32(g_feature+32)+1ul;p32(g_feature+32,count);save_feature_data();
+      if((count%4ul)==0ul){
+        slot=count/4ul-1ul;
+        if(affection>=80){
+          if((slot%3ul)==0ul)event="OnYuukaFeatureBond20";
+          else if((slot%3ul)==1ul)event="OnYuukaFeatureBond50";
+          else event="OnYuukaFeatureBond80";
+        }else if(affection>=50){
+          event=((slot%2ul)==0ul)?"OnYuukaFeatureBond20":"OnYuukaFeatureBond50";
+        }else event="OnYuukaFeatureBond20";
+        r=core_event(event,&rn);if(r){GlobalFree(h);if(lenp)*lenp=rn;return r;}
+      }
+    }
+  }
+
   return g_request(h,lenp);
 }
 
