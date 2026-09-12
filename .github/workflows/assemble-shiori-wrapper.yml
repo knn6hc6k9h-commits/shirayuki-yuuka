@@ -1,0 +1,33 @@
+name: Assemble SHIORI wrapper
+
+on:
+  push:
+    paths:
+      - 'source/shiori_wrapper.ready'
+
+permissions:
+  contents: write
+
+jobs:
+  assemble:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Assemble wrapper DLL
+        shell: bash
+        run: |
+          cat source/shiori_wrapper.b64.part00 source/shiori_wrapper.b64.part01 source/shiori_wrapper.b64.part02 source/shiori_wrapper.b64.part03 | base64 -d > docs/update/ghost/master/shiori.dll
+          test "$(stat -c%s docs/update/ghost/master/shiori.dll)" = "6976"
+          echo "c24ccc5547e650b51b16291db50ca962  docs/update/ghost/master/shiori.dll" | md5sum -c -
+      - name: Commit assembled DLL
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/update/ghost/master/shiori.dll
+          if git diff --cached --quiet; then
+            echo "No binary change needed."
+            exit 0
+          fi
+          git commit -m "Assemble live dialogue reload SHIORI wrapper"
+          git push
