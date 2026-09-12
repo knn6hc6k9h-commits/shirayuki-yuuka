@@ -1,16 +1,16 @@
   load_callname();
   if(g_call_base[0]){
     int i=0;while(g_call_base[i]&&i<CALL_BASE_MAX){g_pending_base[i]=g_call_base[i];++i;}g_pending_base[i]=0;
-    return make_response("\\0\\s[1]自由な呼び方ですね♪\\n\\n私に呼んでほしい呼び方を、そのまま入力してください。\\nたとえば『先輩』『先生』『魁人先輩』みたいな呼び方でも大丈夫です♪\\n\\n\\![open,inputbox,OnYuukaCallNameCustomInput,--timeout=-1,--limit=30]\\e",outlen);
+    return make_response("\\0\\s[1]自由な呼び方ですね♪\\n\\n私に呼んでほしい呼び方を、そのまま入力してください。\\nたとえば『先輩』『先生』『○○先輩』みたいな呼び方でも大丈夫です♪\\n\\n\\![open,inputbox,OnYuukaCallNameCustomInput,--timeout=-1,--limit=30]\\e",outlen);
   }
-  return make_response("\\0\\s[1]自由な呼び方ですね♪\\n\\nまず、今ゆうかに登録しているお名前部分を入力してください。\\nたとえば『魁人さん』なら『魁人』です。\\n\\n\\![open,inputbox,OnYuukaCallNameCustomBaseInput,--timeout=-1,--limit=20]\\e",outlen);
+  return make_response("\\0\\s[1]自由な呼び方ですね♪\\n\\nまず、今ゆうかに登録しているお名前部分を入力してください。\\nたとえば『○○さん』なら『○○』です。\\n\\n\\![open,inputbox,OnYuukaCallNameCustomBaseInput,--timeout=-1,--limit=20]\\e",outlen);
 }
 
 static HGLOBAL custom_base_input(const char* req,int n,long* outlen){
   char raw[160];raw[0]=0;g_pending_base[0]=0;get_header_value(req,n,"Reference0:",raw,(int)sizeof(raw));
   if(!clean_input(raw,g_pending_base,(int)sizeof(g_pending_base)))
     return make_response("\\0\\s[2]お名前をうまく読み取れませんでした……。\\n\\q[呼び方を決める画面に戻る,OnYuukaCallNameSettings]\\e",outlen);
-  return make_response("\\0\\s[1]はいっ。\\w5では次に、私に呼んでほしい呼び方をそのまま入力してください♪\\n『先輩』『先生』『魁人先輩』みたいな呼び方でも大丈夫です。\\n\\n\\![open,inputbox,OnYuukaCallNameCustomInput,--timeout=-1,--limit=30]\\e",outlen);
+  return make_response("\\0\\s[1]はいっ。\\w5では次に、私に呼んでほしい呼び方をそのまま入力してください♪\\n『先輩』『先生』『○○先輩』みたいな呼び方でも大丈夫です。\\n\\n\\![open,inputbox,OnYuukaCallNameCustomInput,--timeout=-1,--limit=30]\\e",outlen);
 }
 
 static HGLOBAL custom_call_input(const char* req,int n,long* outlen){
