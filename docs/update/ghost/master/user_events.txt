@@ -24,3 +24,59 @@ EVENT|OnYuukaFeedback|\0\s[1]あの……もしよかったら、私と過ごし
 EVENT|MainMenu|\0\s[1]はいっ、どうしましたか？\n\n\_l[0,]\q[お話しする,OnYuukaTalk]\_l[11em,]\q[ゆうかに話しかける,OnYuukaSpeak]\_l[0,@1.5lh]\q[今の気持ちを聞く,OnYuukaAffection]\_l[11em,]\q[呼び方を決める,OnYuukaSetName]\_l[0,@1.5lh]\q[少し休憩する,OnYuukaRest]\_l[11em,]\q[設定,OnYuukaSettings]\_l[0,@1.5lh]\q[感想を送る（Web拍手）,OnYuukaFeedback]\_l[11em,]\q[閉じる,script:\e]\*\e
 EVENT|MainMenuGrumpy|\0\s[0]……どうしましたか？\n\n\_l[0,]\q[お話しする,OnYuukaTalk]\_l[11em,]\q[ゆうかに話しかける,OnYuukaSpeak]\_l[0,@1.5lh]\q[今の気持ちを聞く,OnYuukaAffection]\_l[11em,]\q[呼び方を決める,OnYuukaSetName]\_l[0,@1.5lh]\q[少し休憩する,OnYuukaRest]\_l[11em,]\q[設定,OnYuukaSettings]\_l[0,@1.5lh]\q[感想を送る（Web拍手）,OnYuukaFeedback]\_l[11em,]\q[閉じる,script:\e]\*\e
 EVENT|MainMenuAngry|\0\s[4]……何ですか？\n\n\_l[0,]\q[お話しする,OnYuukaTalk]\_l[11em,]\q[ゆうかに話しかける,OnYuukaSpeak]\_l[0,@1.5lh]\q[今の気持ちを聞く,OnYuukaAffection]\_l[11em,]\q[呼び方を決める,OnYuukaSetName]\_l[0,@1.5lh]\q[少し休憩する,OnYuukaRest]\_l[11em,]\q[設定,OnYuukaSettings]\_l[0,@1.5lh]\q[感想を送る（Web拍手）,OnYuukaFeedback]\_l[11em,]\q[閉じる,script:\e]\*\e
+
+# ============================================================
+# 長く一緒に過ごすための追加機能
+# ============================================================
+
+# 2. 最後に会ってからの時間
+EVENT|OnYuukaFeatureReturnShort|\0\s[1]おかえりなさい、{name}さん♪\w5少しぶりですね。\w5また来てくれて嬉しいです。\e
+EVENT|OnYuukaFeatureReturnShort|\0\s[1]あっ、{name}さん。\w5おかえりなさい♪\w5また会えましたね。\e
+EVENT|OnYuukaFeatureReturnHours|\0\s[1]おかえりなさい、{name}さん♪\w5数時間ぶりですね。\w5今日はどんなふうに過ごしてたんですか？\e
+EVENT|OnYuukaFeatureReturnHours|\0\s[0]あっ……{name}さん。\w5ちょっと久しぶりな感じがします。\w5戻ってきてくれて安心しました♪\e
+EVENT|OnYuukaFeatureReturnDays|\0\s[3]わっ、{name}さん……！\w5何日かぶりですね。\w5えへへ……また会えてよかったです♪\e
+EVENT|OnYuukaFeatureReturnDays|\0\s[1]おかえりなさい♪\w5何日か会えなかったから、ちょっと寂しかったんですよ？\e
+EVENT|OnYuukaFeatureReturnWeek|\0\s[3]{name}さん……！\w5一週間以上ぶりですよっ。\w5……忘れられちゃったのかなって、少しだけ心配してました。\w5でも、会えて嬉しいです♪\e
+EVENT|OnYuukaFeatureReturnWeek|\0\s[1]おかえりなさい、{name}さん。\w5ずいぶん久しぶりですね。\w5今日はいっぱいお話しできたら嬉しいです♪\e
+EVENT|OnYuukaFeatureReturnLong|\0\s[3]……{name}さん！？\w5本当に……久しぶりです。\w5また会いに来てくれたんですね。\w5えへへ……すごく嬉しいです♪\e
+EVENT|OnYuukaFeatureReturnLong|\0\s[6]ずっと会えなかったから、ちょっと心配してました……。\w5\s[1]でも、こうして戻ってきてくれたなら大丈夫です。\w5おかえりなさい、{name}さん♪\e
+
+# 3. 好感度で解放される会話
+EVENT|OnYuukaFeatureBond20|\0\s[1]最初の頃より、{name}さんとお話しする時に緊張しなくなってきました。\w5えへへ♪\e
+EVENT|OnYuukaFeatureBond20|\0\s[0]最近、{name}さんが来てくれると「あっ、来てくれた」って自然に思うようになったんです。\e
+EVENT|OnYuukaFeatureBond50|\0\s[1]{name}さんと一緒にいる時間、もうすっかり私の日常になってます♪\w5これからも、たくさんお話ししてくださいね。\e
+EVENT|OnYuukaFeatureBond50|\0\s[5]あの……こういうの、ちょっと照れますけど。\w5{name}さんのこと、かなり信頼してるんですよ？\e
+EVENT|OnYuukaFeatureBond80|\0\s[5]{name}さんが来てくれると、なんだかほっとするんです。\w5……大切な人が帰ってきた、みたいな。\w5えへへ……♪\e
+EVENT|OnYuukaFeatureBond80|\0\s[1]これまで一緒に過ごした時間、私ちゃんと覚えていたいです。\w5これからも、もっと思い出を増やしましょうね♪\e
+
+# 4. ユーザーの誕生日
+EVENT|OnYuukaFeatureBirthdayPrompt|\0\s[1]そういえば、{name}さんのお誕生日を教えてもらってもいいですか？\w5『9/12』みたいに、月/日で入力してください♪\n\![open,inputbox,OnYuukaBirthdayInput,--timeout=-1,--limit=10]\e
+EVENT|OnYuukaFeatureBirthdayInvalid|\0\s[0]あれ……？\w5うまく読み取れませんでした。\w5『9/12』みたいに、月/日で教えてくださいね。\e
+EVENT|OnYuukaFeatureBirthdaySet|\0\s[1]はいっ♪\w5ちゃんと覚えました！\w5当日は私にもお祝いさせてくださいね。\e
+EVENT|OnYuukaFeatureBirthdayCleared|\0\s[0]誕生日の登録を消しました。\w5また教えたくなったら、いつでも設定してくださいね。\e
+EVENT|OnYuukaFeatureBirthdayToday|\0\s[3]あっ……！\w5{name}さん、今日はお誕生日ですよね！？\w5\s[1]お誕生日おめでとうございますっ♪\w5今年もこうしてお祝いできて嬉しいです。\w5素敵な一年になりますように！\e
+EVENT|OnYuukaFeatureBirthdayToday|\0\s[1]今日は{name}さんの大切な日ですね。\w5お誕生日、おめでとうございます♪\w5えへへ……今日はいつもよりたくさん一緒にいたいです。\e
+
+# 5. ゆうか自身のその日の調子・生活感
+EVENT|OnYuukaFeatureSleepy|\0\s[0]ふぁ……。\w5あっ、ご、ごめんなさいっ。\w5今日はちょっと眠たいみたいです……。\e
+EVENT|OnYuukaFeatureSleepy|\0\s[5]さっきから少しだけ眠くて……。\w5{name}さんのそばなら、うとうとしても大丈夫でしょうか……？\e
+EVENT|OnYuukaFeatureEnergetic|\0\s[1]今日はなんだか元気いっぱいなんです♪\w5何か新しいことを始めたくなる日ってありませんか？\e
+EVENT|OnYuukaFeatureEnergetic|\0\s[1]えへへ♪\w5今日はいつもよりたくさんお話しできそうな気がします！\e
+EVENT|OnYuukaFeatureHungry|\0\s[0]あの……さっきからちょっとお腹が空いてきました。\w5{name}さんは、もう何か食べましたか？\e
+EVENT|OnYuukaFeatureHungry|\0\s[5]お腹が鳴ったら……聞かなかったことにしてくださいね？\w5えへへ……。\e
+EVENT|OnYuukaFeatureReading|\0\s[0]今日は本を読んでいたんです。\w5面白いところまで来ると、時間を忘れちゃいますね。\e
+EVENT|OnYuukaFeatureReading|\0\s[1]静かに本を読む時間も好きですけど、{name}さんとお話しする時間も好きですよ♪\e
+
+# 6. より細かい時間帯の起動挨拶
+EVENT|OnYuukaFeatureBootDeepNight|\0\s[3]{name}さん！？\w5こんな真夜中まで起きてたんですか？\w5もう、夜ふかししすぎは駄目ですよっ。\e
+EVENT|OnYuukaFeatureBootDawn|\0\s[3]わっ、もう朝になりかけてますよ。\w5早起き……ですよね？\w5まさか、ずっと起きてたわけじゃないですよね……？\e
+EVENT|OnYuukaFeatureBootEarlyMorning|\0\s[1]おはようございます、{name}さん♪\w5今日は早いですね。\w5気持ちのいい一日になるといいですね！\e
+EVENT|OnYuukaFeatureBootNoon|\0\s[1]こんにちは、{name}さん♪\w5ちょうどお昼ですね。\w5お昼ごはんはもう決まりましたか？\e
+EVENT|OnYuukaFeatureBootAfternoon|\0\s[1]こんにちは、{name}さん。\w5午後もお疲れさまです♪\w5少し休んでいきませんか？\e
+EVENT|OnYuukaFeatureBootPrimeEvening|\0\s[1]こんばんは、{name}さん♪\w5今日も一日お疲れさまでした。\w5これからは少しゆっくりできそうですか？\e
+EVENT|OnYuukaFeatureBootLateNight|\0\s[3]わっ、もうこんな時間ですよ、{name}さん。\w5そろそろ休む準備もしないと駄目ですよ？\e
+
+# 12. 更新後だけの専用挨拶
+EVENT|OnYuukaFeatureUpdated|\0\s[3]わっ……！\w5{name}さん、私、少し新しくなったみたいです♪\w5何か変わったところ、見つけられるでしょうか？\e
+EVENT|OnYuukaFeatureUpdated|\0\s[1]更新ありがとうございます♪\w5これからも、もっと一緒に過ごしやすくなれたら嬉しいです。\e
+EVENT|OnYuukaFeatureUpdated|\0\s[1]えへへ♪\w5新しい私も、これまでと変わらずよろしくお願いしますね、{name}さん。\e
