@@ -1,3 +1,4 @@
+/* Top-level SHIORI wrapper: call-name handling + editable menu labels. */
 #include "shiori_callname_part1.inc"
 #include "shiori_callname_part2.inc"
 #include "shiori_callname_part3.inc"
