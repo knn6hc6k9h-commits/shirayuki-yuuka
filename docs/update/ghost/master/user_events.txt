@@ -77,6 +77,6 @@ EVENT|OnYuukaFeatureBootPrimeEvening|\0\s[1]こんばんは、{name}さん♪\w5
 EVENT|OnYuukaFeatureBootLateNight|\0\s[3]わっ、もうこんな時間ですよ、{name}さん。\w5そろそろ休む準備もしないと駄目ですよ？\e
 
 # 12. 更新後だけの専用挨拶
-EVENT|OnYuukaFeatureUpdated|\0\s[2]あの……{name}さん、私、少し新しくなったみたいです。\w5何か変わったところ、見つけられるでしょうか……？\e
+EVENT|OnYuukaFeatureUpdated|\0\s[3]わっ……！\w5{name}さん、私、少し新しくなったみたいです♪\w5何か変わったところ、見つけられるでしょうか？\e
 EVENT|OnYuukaFeatureUpdated|\0\s[1]更新ありがとうございます♪\w5これからも、もっと一緒に過ごしやすくなれたら嬉しいです。\e
 EVENT|OnYuukaFeatureUpdated|\0\s[1]えへへ♪\w5新しい私も、これまでと変わらずよろしくお願いしますね、{name}さん。\e
