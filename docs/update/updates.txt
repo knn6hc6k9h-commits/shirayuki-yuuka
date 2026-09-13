@@ -10,6 +10,7 @@ file,ghost/master/shiori_core.dll2bcfa84bc4d2013ec8e08774260a7b06size=47973
 file,ghost/master/thumbnail.pnge33cef779e343de967adc078681b4fafsize=82734
 file,ghost/master/user_config.txt2d1876effb919f1ebef965a6e93a1e60size=1093
 file,ghost/master/user_events.txtc3246798f453131392e74cbf889904c2size=10235
+file,ghost/master/word_meanings.txtc488e95ed4f959921b1edfc9509a18b6size=1621
 file,readme.txt9f09a1f97e92b22e0ab30bcfe8dd30cbsize=891
 file,shell/master/descript.txt45a4a15674dc5b2e5e3fbdb9e2ee6326size=234
 file,shell/master/readme.txt6e8c0d2480274acdc868b7dbddd33704size=225
