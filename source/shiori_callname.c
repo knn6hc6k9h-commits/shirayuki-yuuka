@@ -20,7 +20,7 @@ __declspec(dllexport) BOOL __cdecl load(HGLOBAL h,long len){
 }
 
 __declspec(dllexport) HGLOBAL __cdecl request(HGLOBAL h,long* lenp){
-  int inlen=(lenp?(int)*lenp:0),main_menu=0,settings_menu=0;HGLOBAL r,handled;
+  int inlen=(lenp?(int)*lenp:0),main_menu=0,settings_menu=0,other_settings_menu=0;HGLOBAL r,handled;
   if(!g_base_request){if(h)GlobalFree(h);if(lenp)*lenp=0;return 0;}
   if(!h)return g_base_request(h,lenp);
 
@@ -28,6 +28,8 @@ __declspec(dllexport) HGLOBAL __cdecl request(HGLOBAL h,long* lenp){
             request_has_id((const char*)h,inlen,"MainMenuGrumpy")||
             request_has_id((const char*)h,inlen,"MainMenuAngry");
   settings_menu=request_has_id((const char*)h,inlen,"OnYuukaSettings");
+  other_settings_menu=request_has_id((const char*)h,inlen,"OnYuukaOriginalSettings")||
+                      request_has_id((const char*)h,inlen,"OnYuukaToggleHarassmentCount");
 
   load_callname();
   handled=handle_callname_event(h,lenp,inlen);if(handled)return handled;
@@ -37,7 +39,7 @@ __declspec(dllexport) HGLOBAL __cdecl request(HGLOBAL h,long* lenp){
 
   r=g_base_request(h,lenp);
   r=apply_callname(r,lenp);
-  return yuuka_apply_menu_labels(r,lenp,main_menu,settings_menu);
+  return yuuka_apply_menu_labels(r,lenp,main_menu,settings_menu,other_settings_menu);
 }
 
 __declspec(dllexport) BOOL __cdecl unload(void){
