@@ -39,17 +39,17 @@ EVENT|BootDayClose|\0\s[1]いってらっしゃい、{name}さん\w5また会い
 EVENT|BootEvening|\0\s[1]こんばんは、{name}さん。\w5今日も一日、お疲れさまでした♪\e
 EVENT|BootEveningClose|\0\s[2]そろそろおしまいですか？\w5……ちょっと寂しいですけど、仕方ないですよね。\w5また会いに来てくれたら嬉しいです♪\e
 EVENT|BootNight|\0\s[3]わっ、もうこんな時間ですよ、{name}さん。\w5何かありましたか？\e
-EVENT|Close|\0\s[1]もうおしまいなんですね。\w5今日も一緒にいてくれてありがとうございました♪\w5また来てください♪\w4\-
+EVENT|Close|\0\s[1]もうおしまいなんですね。\w5また会いに来てください！\-
 
 # EVENT|FirstBoot|\0\s[1]はじめまして。白雪ゆうかです。\w5えへへ♪ これからよろしくおねがいします。\n\n私に話しかけたい時は、そっと触れてみてくださいね。\e
-# EVENT|BootMorning|\0\s[1]おはようございます、{name}さん。\w5今日も会えて嬉しいです♪\e
-# EVENT|BootMorningClose|\0\s[1]いってらっしゃい、{name}さん♪\w5帰ってくるのを待ってますね……♪\e
+# EVENT|BootMorning|\0\s[1]おはようございます、{name}さん。\w5えへへ♪今日も来てくれたんですね♪\e
+# EVENT|BootMorningClose|\0\s[1]いってらっしゃい、{name}さん♪\w5帰ってくるのを待ってます！\e
 # EVENT|BootDay|\0\s[1]こんにちは、{name}さん。\w5今日も会えて嬉しいです♪\e
-# EVENT|BootDayClose|\0\s[1]いってらっしゃい、{name}さん♪\w5また会いに来てください……♪\e
-# EVENT|BootEvening|\0\s[1]こんばんは、{name}さん。\w5今日も会えて嬉しいです♪\e
-# EVENT|BootEveningClose|\0\s[1]もうこんな時間ですね。\w5また...会えますか？\e
-# EVENT|BootNight|\0\s[0]こんな時間まで起きてるんですね、{name}さん。\w5あまり無理しちゃ駄目ですよ？ 私、ちょっと心配です……。\e
-# EVENT|Close|\0\s[1]もうおしまいなんですね。\w5また会いに来てくださいね……♪\-
+# EVENT|BootDayClose|\0\s[1]いってらっしゃい、{name}さん♪\w5また会いに来てください♪\e
+# EVENT|BootEvening|\0\s[1]こんばんは、{name}さん。\w5今日も会えて嬉しいです！\e
+# EVENT|BootEveningClose|\0\s[1]もうこんな時間ですね。\w5また明日会いましょう♪\e
+# EVENT|BootNight|\0\s[0]こんな時間まで起きてるんですね、{name}さん。\w5あまり無理しちゃ駄目です \e
+# EVENT|Close|\0\s[1]もうおしまいなんですね。\w5また会いに来てください！\-
 
 # ------------------------------------------------------------
 # メインメニュー・設定
@@ -64,18 +64,13 @@ EVENT|ReloadComplete|\0\s[1]設定を読み直しました♪\n標準台詞: {di
 # ここは好きなだけ EVENT|RandomTalk|... を増やせます。
 # ------------------------------------------------------------
 EVENT|RandomTalk|\0\s[0]{name}さんは今日なにをしていましたか？\w5 \e
-EVENT|RandomTalk|\0\s[0]ずっと画面を見てませんか？\w5 ときどき遠くを見て、目を休めてくださいね。\e
 EVENT|RandomTalk|\0\s[5]褒められるの、まだちょっと照れちゃいますけど……\w9\w9\s[3]嬉しくないわけじゃないんです！\e
-EVENT|RandomTalk|\0\s[5]大きな音がすると、今でも少しびっくりしちゃって……\e
-EVENT|RandomTalk|\0\s[5]……あ、あんまりじっと見ないでください。\w5恥ずかしいです……。\e
-EVENT|RandomTalk|\0\s[1]あっ、{name}さん。\w9……呼んでみただけです♪\e
-EVENT|RandomTalk|\0\s[3]あっ！！\w6……\w5\s[1]びっくりしました？\w5えへへ、たまには私から驚かせてみようかなって思いました♪\e
-EVENT|RandomTalk|\0\s[1]えへへ♪\w4今日はちょっと機嫌がいいんです。\w5理由は……秘密です♪\e
+EVENT|RandomTalk|\0\s[5]……あ、あんまりじっと見られると…\w5恥ずかしいですね……。\e
+EVENT|RandomTalk|\0\s[1]えへへ♪\w4今日はちょっと機嫌がいいんです。\e
 EVENT|RandomTalk|\0\s[5]うう……\w6おなかがすいてきましたね…\e
-EVENT|RandomTalk|\0\s[0]あの……\w6{name}さんは普段どんな風にすごしてるのか気になります\e
+EVENT|RandomTalk|\0\s[0]あの……\w6{name}さんは普段どんな風に過ごしているのですか？\e
 EVENT|RandomTalk|\0\s[1]あのっ、私について何か気になることがあったら、{name}さんの感想も聞かせてくださいね♪\e
 EVENT|RandomTalk|\0\s[5]うう……私って、そんなに子供っぽく見えますか？\w6もう18歳なんですけど……。\e
-
 
 
 # ------------------------------------------------------------

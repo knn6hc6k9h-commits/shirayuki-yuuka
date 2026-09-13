@@ -41,3 +41,9 @@
 サンキュー
 thank you
 thanks
+
+[praise]
+かわいい
+可愛い
+すごい
+えらい
