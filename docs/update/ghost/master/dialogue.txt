@@ -115,19 +115,18 @@ EVENT|OnYuukaHeadTouch|\0\s[3]いたっ…！？\w9び、びっくりしまし�
 # ------------------------------------------------------------
 # 胸元
 # ------------------------------------------------------------
-EVENT|OnYuukaBustTouch|\0\s[8]きゃっ！？\w4 い、いま胸のところ……触りましたよね？\e
+EVENT|OnYuukaBustTouch|\0\s[8]きゃっ！？\w4 どこをさわってるんですか！？\e
 EVENT|OnYuukaBustTouch|\0\s[8]ひゃっ……！\w4 そ、そこは急に触っちゃ駄目ですってば……！\e
-EVENT|OnYuukaBustTouch|\0\s[8]わっ！？\w4 やめてください……。\e
-EVENT|OnYuukaBustTouch|\0\s[3]きゃっ！\w4\s[8]びっくりしました……いたずらは駄目ですよっ。\e
-EVENT|OnYuukaBustStrongTouch|\0\s[3]きゃあっ！？\w5\s[8]何度もそこに触らないでくださいっ……\e
+EVENT|OnYuukaBustTouch|\0\s[3]きゃっ！\w4\s[8]もうっ…いたずらは駄目ですよっ！。\e
+EVENT|OnYuukaBustStrongTouch|\0\s[3]きゃあっ！？\w9\s[8]何度もそこに触らないでくださいっ…！\e
 
 EVENT|OnYuukaBustStroke|\0\s[8]ひゃっ……！\w4 胸をずっとなぞらないでくださいっ……！\e
 EVENT|OnYuukaBustStroke|\0\s[3]わっ……！\w4\s[8]く、くすぐったいですから、そこは駄目ですっ。\e
 
 EVENT|OnYuukaBustWheelUp|\0\s[8]きゃっ！？ \w4む、胸をなぞらないでくださいっ……！\e
-EVENT|OnYuukaBustWheelUp|\0\s[3]きゃっ！\w4\s[8]び、びっくりしました……そこはやめてくださいっ。\e
-EVENT|OnYuukaBustWheelDown|\0\s[8]ひゃっ……！ なぞらないでください……。\e
-EVENT|OnYuukaBustWheelDown|\0\s[8]んっ……！ そこは触らないでくださいっ。\e
+EVENT|OnYuukaBustWheelUp|\0\s[3]きゃっ！\w4\s[8]そこはやめてくださいっ！\e
+EVENT|OnYuukaBustWheelDown|\0\s[8]ひゃっ……！ なぞらないでください……！\e
+EVENT|OnYuukaBustWheelDown|\0\s[8] そこを触っちゃだめですっ！\e
 
 # ------------------------------------------------------------
 # スカート
@@ -141,9 +140,8 @@ EVENT|OnYuukaSkirtWheelUp|\0\s[5]ま、待ってくださいっ……！\w5\s[4]
 EVENT|OnYuukaSkirtWheelUp|\0\s[9]きゃっ！\w9\w4\s[5]……も、もう……やめてください……！\e
 
 # 20%のレア反応。surface7 -> surface9 -> surface6 の順。
-EVENT|OnYuukaSkirtActualFlip|\0\s[7]えっ……？\w9\w4 ま、待ってくださ――\w7\w9\s[9]きゃあああっ！？\w9\w9\s[6]……うぅ……。\w7 ううっ…\e
-EVENT|OnYuukaSkirtActualFlip|\0\s[7]ひゃっ……！\w6\w4 え、ちょっと――\w7\w9\s[9]きゃあっ！？\w9\w9\s[6]……今のは本当にびっくりしました……。\w7 もう。\e
-EVENT|OnYuukaSkirtActualFlip|\0\s[7]え、ええっ！？\w6\w4 だ、駄目――\w7\w9\s[9]きゃああっ！\w9\w9\s[6]……うぅ……\e
+EVENT|OnYuukaSkirtActualFlip|\0\s[7]えっ……？\w9\w4 ま、待ってくださ――\w7\w9\s[9]きゃあああっ！？\w9\w9\s[6]……うぅ……\e
+EVENT|OnYuukaSkirtActualFlip|\0\s[7]ひゃっ……！\w6\w4 え、ちょっと――\w7\w9\s[9]きゃあっ！？\w9\w9\s[6]……\w7 \e
 
 # ------------------------------------------------------------
 # 目
