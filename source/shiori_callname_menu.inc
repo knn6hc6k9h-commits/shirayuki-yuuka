@@ -32,7 +32,11 @@ static const char yuuka_menu_config_defaults[]=
 "settings_randomtalk=ランダムトークの頻度を変更\r\n"
 "settings_birthday=誕生日を変更\r\n"
 "settings_other=その他設定\r\n"
-"settings_back=戻る\r\n";
+"settings_back=戻る\r\n"
+"\r\n"
+"# その他設定メニュー\r\n"
+"other_count_stop=秘密のカウントの停止\r\n"
+"other_count_resume=秘密のカウントの再開\r\n";
 
 static void yuuka_copy_menu_text(char* out,int cap,const char* text){
   int i=0;
@@ -131,7 +135,7 @@ static HGLOBAL yuuka_replace_menu_item(HGLOBAL r,long* lenp,const char* key,cons
   return replace_all(r,lenp,needle,replacement);
 }
 
-static HGLOBAL yuuka_apply_menu_labels(HGLOBAL r,long* lenp,int main_menu,int settings_menu){
+static HGLOBAL yuuka_apply_menu_labels(HGLOBAL r,long* lenp,int main_menu,int settings_menu,int other_settings_menu){
   if(main_menu){
     r=yuuka_replace_menu_item(r,lenp,"main_talk","お話しする","OnYuukaTalk");
     r=yuuka_replace_menu_item(r,lenp,"main_speak","ゆうかに話しかける","OnYuukaSpeak");
@@ -146,6 +150,10 @@ static HGLOBAL yuuka_apply_menu_labels(HGLOBAL r,long* lenp,int main_menu,int se
     r=yuuka_replace_menu_item(r,lenp,"settings_birthday","誕生日を変更","OnYuukaBirthdaySettings");
     r=yuuka_replace_menu_item(r,lenp,"settings_other","その他設定","OnYuukaOriginalSettings");
     r=yuuka_replace_menu_item(r,lenp,"settings_back","戻る","MainMenu");
+  }
+  if(other_settings_menu){
+    r=yuuka_replace_menu_item(r,lenp,"other_count_stop","カウント増加を停止","OnYuukaToggleHarassmentCount");
+    r=yuuka_replace_menu_item(r,lenp,"other_count_resume","カウント増加を再開","OnYuukaToggleHarassmentCount");
   }
   return r;
 }
