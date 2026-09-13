@@ -4,5 +4,8 @@ ghost/master/yuuka_state.dat,nonar,noupdate
 ghost/master/yuuka_features.dat,nonar,noupdate
 ghost/master/profile/,nonar,noupdate
 shell/master/profile/,nonar,noupdate
+# ユーザーが編集する設定ファイルはNARには含めるが、ネットワーク更新では上書きしない
+ghost/master/menu_config.txt,noupdate
+ghost/master/word_meanings.txt,noupdate
 # 開発用ソース・中間生成物はユーザー配布しない
 source/,nonar,noupdate

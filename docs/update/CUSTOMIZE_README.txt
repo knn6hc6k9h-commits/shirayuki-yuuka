@@ -9,6 +9,10 @@
 なぞり感度・ランダムトーク間隔を変更する場合:
   ghost/master/user_config.txt
 
+話しかけた言葉を「謝罪」「感謝」などの意味で分類する場合:
+  ghost/master/word_meanings.txt
+  [apology] / [thank] などの見出しの下に、判定語を1行ずつ追加・削除できます。
+
 詳しい書き方:
   DIALOGUE_EDIT_GUIDE.txt
 

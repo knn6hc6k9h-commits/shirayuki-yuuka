@@ -4,11 +4,13 @@
 #include "shiori_callname_part3.inc"
 #include "shiori_callname_part4.inc"
 #include "shiori_callname_menu.inc"
+#include "shiori_callname_meanings.inc"
 
 __declspec(dllexport) BOOL __cdecl load(HGLOBAL h,long len){
   char path[1200];char* p=(char*)h;int i=0,n=(int)len;
   if(n<0)n=0;while(p&&i<n&&i<1023&&p[i]){g_dir[i]=p[i];++i;}g_dir[i]=0;
   g_call_loaded=0;g_call_enabled=0;g_call_base[0]=0;g_call_name[0]=0;g_pending_base[0]=0;
+  yuuka_ensure_word_meanings();
   build_path(path,(int)sizeof(path),g_dir,"shiori_base.dll");
   g_base_mod=LoadLibraryA(path);
   if(!g_base_mod){if(h)GlobalFree(h);return FALSE;}
@@ -32,6 +34,13 @@ __declspec(dllexport) HGLOBAL __cdecl request(HGLOBAL h,long* lenp){
                       request_has_id((const char*)h,inlen,"OnYuukaToggleHarassmentCount");
 
   load_callname();
+
+  handled=yuuka_handle_meaning_input(h,lenp,inlen);
+  if(handled){
+    GlobalFree(h);
+    return apply_callname(handled,lenp);
+  }
+
   handled=handle_callname_event(h,lenp,inlen);if(handled)return handled;
 
   /* Changing the registered name invalidates the stored replacement base. */
