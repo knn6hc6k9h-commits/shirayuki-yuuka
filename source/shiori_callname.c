@@ -1,10 +1,11 @@
-/* Top-level SHIORI wrapper: call-name handling + editable menu labels + word meanings. */
+/* Top-level SHIORI wrapper: call-name handling + editable menu labels + word meanings + creator system settings. */
 #include "shiori_callname_part1.inc"
 #include "shiori_callname_part2.inc"
 #include "shiori_callname_part3.inc"
 #include "shiori_callname_part4.inc"
 #include "shiori_callname_menu.inc"
 #include "shiori_callname_meanings.inc"
+#include "shiori_callname_system.inc"
 
 __declspec(dllexport) BOOL __cdecl load(HGLOBAL h,long len){
   char path[1200];char* p=(char*)h;int i=0,n=(int)len;
@@ -34,6 +35,12 @@ __declspec(dllexport) HGLOBAL __cdecl request(HGLOBAL h,long* lenp){
                       request_has_id((const char*)h,inlen,"OnYuukaToggleHarassmentCount");
 
   load_callname();
+
+  handled=yuuka_handle_system_request(h,lenp,inlen);
+  if(handled){
+    GlobalFree(h);
+    return apply_callname(handled,lenp);
+  }
 
   handled=yuuka_handle_meaning_input(h,lenp,inlen);
   if(handled){
