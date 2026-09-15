@@ -91,8 +91,7 @@ static HGLOBAL yuuka_owner_links_response(const char* section,long* outlen){
       value[pos]=0;
       append_text(value,(int)sizeof(value),&pos,url);
       if(pos<(int)sizeof(value)-1)value[pos++]=1;
-      if(pos<(int)sizeof(value)-1)value[pos++]=1; /* banner path: empty */
-      if(pos<(int)sizeof(value)-1)value[pos++]=1; /* choice script: empty */
+      if(pos<(int)sizeof(value)-1)value[pos++]=1; /* empty banner path; choice script also empty */
       if(pos<(int)sizeof(value)-1)value[pos++]=2;
       value[pos]=0;
       ++count;
